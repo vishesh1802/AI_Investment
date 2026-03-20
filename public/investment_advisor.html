@@ -577,11 +577,11 @@ function showPage(p,btn) {
 
 // ═══════════════ ADVISOR ═══════════════
 function recColor(r,c){ 
-  if(c<0.60) return 'var(--blue)';
+  if(c<0.50) return 'var(--blue)';
   return r==='BUY'?'var(--green)':r==='AVOID'?'var(--red)':'var(--amber)' 
 }
 function recBadge(r,c){
-  if(c<0.60) return '<span class="badge badge-abstain">⊘ ABSTAIN</span>';
+  if(c<0.50) return '<span class="badge badge-abstain">⊘ ABSTAIN</span>';
   const cls=r==='BUY'?'badge-buy':r==='AVOID'?'badge-avoid':'badge-hold';
   const icon=r==='BUY'?'▲':r==='AVOID'?'▼':'◉';
   return `<span class="badge ${cls}">${icon} ${r}</span>`;
@@ -634,7 +634,7 @@ function selectCompany(ticker){
 }
 
 function renderDetail(co){
-  const isAbstain=co.confidence<0.60;
+  const isAbstain=co.confidence<0.50;
   const panel=document.getElementById('detail-panel');
 
   const shapHtml = Object.entries(co.shap).map(([k,v])=>{
@@ -730,7 +730,7 @@ function renderDetail(co){
         </div>
       </div>
 
-      ${isAbstain?`<div class="abstain-banner"><span class="abstain-icon">⊘</span><div><strong style="color:var(--blue)">Insufficient Confidence</strong> — Model confidence ${Math.round(co.confidence*100)}% is below the 60% threshold. No recommendation issued. Consider gathering more signals before acting.</div></div>`:''}
+      ${isAbstain?`<div class="abstain-banner"><span class="abstain-icon">⊘</span><div><strong style="color:var(--blue)">Insufficient Confidence</strong> — Model confidence ${Math.round(co.confidence*100)}% is below the 50% threshold. No recommendation issued. Consider gathering more signals before acting.</div></div>`:''}
 
       <div style="margin-bottom:8px">
         <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Model Confidence</div>
@@ -828,7 +828,7 @@ async function sendChat(){
   msgs.scrollTop=msgs.scrollHeight;
   chatHistory.push({role:'user',content:msg});
   const systemPrompt=`You are a concise, expert AI investment advisor. The user is analyzing ${co.name} (${co.ticker}), sector: ${co.sector}. 
-Key data: Risk Score=${co.riskScore}/100, Recommendation=${co.confidence>=0.60?co.rec:'ABSTAIN (low confidence)'}, Confidence=${Math.round(co.confidence*100)}%.
+Key data: Risk Score=${co.riskScore}/100, Recommendation=${co.confidence>=0.50?co.rec:'ABSTAIN (low confidence)'}, Confidence=${Math.round(co.confidence*100)}%.
 Features=${JSON.stringify(co.features)}.
 Top SHAP/driver signals: ${JSON.stringify(co.shap)}.
 Give sharp, 2-4 sentence answers. Use ** for emphasis. Add a ⚠ disclaimer if advice could be taken as financial guidance. Never recommend illegal actions.`;
@@ -1084,7 +1084,7 @@ function renderReport(){
         ['✓ Decision Usefulness Exceeds Accuracy','Simulated BUY portfolio returns +16.4% vs +9.2% S&P benchmark — demonstrating real decision value beyond classification accuracy alone.','var(--green)'],
         ['✓ Temporal Stability Confirmed','Walk-forward accuracy ranges 75–80% across 8 quarters. No significant degradation observed — model does not overfit to a specific market regime.','var(--green)'],
         ['⚡ Risk Asymmetry Applied','False-Avoid rate (12%) and False-Buy rate (8%) reflect deliberate cost-sensitive weighting. Investor safety prioritized over raw accuracy maximization.','var(--amber)'],
-        ['⊘ Abstain Guardrail Effective','14.3% of predictions below 60% confidence threshold are withheld — preventing overconfident recommendations in ambiguous market conditions.','var(--blue)'],
+        ['⊘ Abstain Guardrail Effective','14.3% of predictions below 50% confidence threshold are withheld — preventing overconfident recommendations in ambiguous market conditions.','var(--blue)'],
       ].map(([t,d,c])=>`
       <div style="padding:18px;background:var(--bg3);border-radius:12px;border-left:3px solid ${c}">
         <div style="font-size:13px;font-weight:500;color:${c};margin-bottom:8px">${t}</div>

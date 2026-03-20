@@ -1,46 +1,376 @@
 {
   "companies": [
     {
-      "ticker": "MOS",
-      "name": "MOS",
-      "sector": "Basic Materials",
-      "riskScore": 95,
+      "ticker": "MARA",
+      "name": "MARA",
+      "sector": "Financial Services",
+      "riskScore": 100,
       "rec": "AVOID",
-      "confidence": 0.9999487400054932,
-      "price": 29.31,
+      "confidence": 0.9988400340080261,
+      "price": 9.32,
       "features": {
-        "momentum_60d": 0.1790024135156878,
-        "volatility_30d": 0.03597733236230148,
-        "volume_ratio_20d": 1.9251630593001097,
-        "drawdown_60d": -0.06536989795918369
+        "momentum_60d": -0.1289719626168223,
+        "volatility_30d": 0.07457120466494749,
+        "volume_ratio_20d": 1.492280112044818,
+        "drawdown_60d": -0.17957746478873238
       },
       "shap": {
-        "volatility_30d": 0.8706607818603516,
-        "drawdown_60d": 0.07302361726760864,
-        "momentum_60d": 0.03936042636632919,
-        "volume_ratio_20d": 0.016955256462097168
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
       },
       "color": "#ff4d6a"
     },
     {
-      "ticker": "MIR",
-      "name": "MIR",
-      "sector": "Industrials",
-      "riskScore": 93,
+      "ticker": "KOS",
+      "name": "KOS",
+      "sector": "Energy",
+      "riskScore": 100,
       "rec": "AVOID",
-      "confidence": 0.9999656677246094,
-      "price": 18.69,
+      "confidence": 0.9992363452911377,
+      "price": 2.33,
       "features": {
-        "momentum_60d": -0.2314967105263157,
-        "volatility_30d": 0.03548859266821506,
-        "volume_ratio_20d": 2.2585835794562334,
-        "drawdown_60d": -0.3077777777777777
+        "momentum_60d": 1.33,
+        "volatility_30d": 0.09117226762032055,
+        "volume_ratio_20d": 1.059285675261945,
+        "drawdown_60d": -0.09338521400778199
       },
       "shap": {
-        "volatility_30d": 0.8706607818603516,
-        "drawdown_60d": 0.07302361726760864,
-        "momentum_60d": 0.03936042636632919,
-        "volume_ratio_20d": 0.016955256462097168
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ff4d6a"
+    },
+    {
+      "ticker": "LYG",
+      "name": "LYG",
+      "sector": "Financial Services",
+      "riskScore": 0,
+      "rec": "HOLD",
+      "confidence": 0.44248974323272705,
+      "price": 5.02,
+      "features": {
+        "momentum_60d": -0.021442495126705707,
+        "volatility_30d": 0.02136694159486976,
+        "volume_ratio_20d": 0.9511030903547936,
+        "drawdown_60d": -0.19680000000000009
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ffb627"
+    },
+    {
+      "ticker": "META",
+      "name": "META",
+      "sector": "Communication Services",
+      "riskScore": 0,
+      "rec": "HOLD",
+      "confidence": 0.46580564975738525,
+      "price": 613.71,
+      "features": {
+        "momentum_60d": -0.0521999660236907,
+        "volatility_30d": 0.017213388904244797,
+        "volume_ratio_20d": 1.5589169558390839,
+        "drawdown_60d": -0.1687637984044641
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ffb627"
+    },
+    {
+      "ticker": "MOS",
+      "name": "MOS",
+      "sector": "Basic Materials",
+      "riskScore": 69,
+      "rec": "AVOID",
+      "confidence": 0.9987331032752991,
+      "price": 29.31,
+      "features": {
+        "momentum_60d": 0.1790024135156878,
+        "volatility_30d": 0.03597733236230153,
+        "volume_ratio_20d": 1.9251630593001097,
+        "drawdown_60d": -0.06536989795918369
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ff4d6a"
+    },
+    {
+      "ticker": "LYFT",
+      "name": "LYFT",
+      "sector": "Technology",
+      "riskScore": 100,
+      "rec": "AVOID",
+      "confidence": 0.9991037249565125,
+      "price": 13.07,
+      "features": {
+        "momentum_60d": -0.3164225941422595,
+        "volatility_30d": 0.04357539547907126,
+        "volume_ratio_20d": 0.8737394051097095,
+        "drawdown_60d": -0.3448621553884711
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ff4d6a"
+    },
+    {
+      "ticker": "KO",
+      "name": "KO",
+      "sector": "Consumer Defensive",
+      "riskScore": 0,
+      "rec": "BUY",
+      "confidence": 0.5094268321990967,
+      "price": 77.34,
+      "features": {
+        "momentum_60d": 0.08975623502888541,
+        "volatility_30d": 0.011071780094274668,
+        "volume_ratio_20d": 0.682364562011292,
+        "drawdown_60d": -0.051741049534085315
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#00e5a0"
+    },
+    {
+      "ticker": "LYB",
+      "name": "LYB",
+      "sector": "Basic Materials",
+      "riskScore": 66,
+      "rec": "AVOID",
+      "confidence": 0.9991582632064819,
+      "price": 72.3,
+      "features": {
+        "momentum_60d": 0.6682048915551451,
+        "volatility_30d": 0.035454027834663365,
+        "volume_ratio_20d": 1.2741825783305845,
+        "drawdown_60d": -0.027310641732813168
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ff4d6a"
+    },
+    {
+      "ticker": "LWLG",
+      "name": "LWLG",
+      "sector": "Basic Materials",
+      "riskScore": 100,
+      "rec": "AVOID",
+      "confidence": 0.999229907989502,
+      "price": 7.61,
+      "features": {
+        "momentum_60d": 1.0185676392572947,
+        "volatility_30d": 0.10679509124704435,
+        "volume_ratio_20d": 2.572655217965654,
+        "drawdown_60d": 0.0
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ff4d6a"
+    },
+    {
+      "ticker": "KMI",
+      "name": "KMI",
+      "sector": "Energy",
+      "riskScore": 0,
+      "rec": "BUY",
+      "confidence": 0.5049286484718323,
+      "price": 33.39,
+      "features": {
+        "momentum_60d": 0.24962574850299402,
+        "volatility_30d": 0.010833220186694442,
+        "volume_ratio_20d": 0.7947601291289542,
+        "drawdown_60d": -0.016784452296819796
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#00e5a0"
+    },
+    {
+      "ticker": "LUV",
+      "name": "LUV",
+      "sector": "Industrials",
+      "riskScore": 52,
+      "rec": "HOLD",
+      "confidence": 0.6966177225112915,
+      "price": 38.75,
+      "features": {
+        "momentum_60d": -0.07118887823585807,
+        "volatility_30d": 0.03295924873057034,
+        "volume_ratio_20d": 0.964498967614725,
+        "drawdown_60d": -0.29288321167883213
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ffb627"
+    },
+    {
+      "ticker": "MPT",
+      "name": "MPT",
+      "sector": NaN,
+      "riskScore": 56,
+      "rec": "HOLD",
+      "confidence": 0.7663758993148804,
+      "price": 4.79,
+      "features": {
+        "momentum_60d": -0.04960317460317465,
+        "volatility_30d": 0.033727620459392475,
+        "volume_ratio_20d": 1.27595584992344,
+        "drawdown_60d": -0.20431893687707636
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ffb627"
+    },
+    {
+      "ticker": "MDLZ",
+      "name": "MDLZ",
+      "sector": "Consumer Defensive",
+      "riskScore": 0,
+      "rec": "BUY",
+      "confidence": 0.4316750764846802,
+      "price": 54.89,
+      "features": {
+        "momentum_60d": 0.011610762992996682,
+        "volatility_30d": 0.017195856199023047,
+        "volume_ratio_20d": 0.9968740532086503,
+        "drawdown_60d": -0.12302284710017575
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#00e5a0"
+    },
+    {
+      "ticker": "LUMN",
+      "name": "LUMN",
+      "sector": "Communication Services",
+      "riskScore": 100,
+      "rec": "AVOID",
+      "confidence": 0.9991419315338135,
+      "price": 6.64,
+      "features": {
+        "momentum_60d": -0.1761786600496279,
+        "volatility_30d": 0.0730625348976088,
+        "volume_ratio_20d": 0.8040273068132591,
+        "drawdown_60d": -0.2852529601722281
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ff4d6a"
+    },
+    {
+      "ticker": "LRCX",
+      "name": "LRCX",
+      "sector": "Technology",
+      "riskScore": 83,
+      "rec": "AVOID",
+      "confidence": 0.9991621971130371,
+      "price": 212.2,
+      "features": {
+        "momentum_60d": 0.29153986609859994,
+        "volatility_30d": 0.03839987216733523,
+        "volume_ratio_20d": 0.8914895353127191,
+        "drawdown_60d": -0.14943081609748277
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ff4d6a"
+    },
+    {
+      "ticker": "MDT",
+      "name": "MDT",
+      "sector": "Healthcare",
+      "riskScore": 0,
+      "rec": "BUY",
+      "confidence": 0.5213720202445984,
+      "price": 87.14,
+      "features": {
+        "momentum_60d": -0.11595820229278675,
+        "volatility_30d": 0.013082600737025211,
+        "volume_ratio_20d": 0.8893985213922172,
+        "drawdown_60d": -0.1554564838146928
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#00e5a0"
+    },
+    {
+      "ticker": "KOLD",
+      "name": "KOLD",
+      "sector": null,
+      "riskScore": 100,
+      "rec": "AVOID",
+      "confidence": 0.9993958473205566,
+      "price": 19.06,
+      "features": {
+        "momentum_60d": -0.4201399452388196,
+        "volatility_30d": 0.1154081014297482,
+        "volume_ratio_20d": 1.0811362636180155,
+        "drawdown_60d": -0.6140919214415874
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
       },
       "color": "#ff4d6a"
     },
@@ -49,64 +379,284 @@
       "name": "MO",
       "sector": "Consumer Defensive",
       "riskScore": 0,
-      "rec": "HOLD",
-      "confidence": 0.5041856169700623,
+      "rec": "BUY",
+      "confidence": 0.49429208040237427,
       "price": 67.89,
       "features": {
         "momentum_60d": 0.14892536808258572,
-        "volatility_30d": 0.013528201243225815,
+        "volatility_30d": 0.013528201243225768,
         "volume_ratio_20d": 0.8744908991099274,
         "drawdown_60d": -0.025968436154949814
       },
       "shap": {
-        "volatility_30d": 0.8706607818603516,
-        "drawdown_60d": 0.07302361726760864,
-        "momentum_60d": 0.03936042636632919,
-        "volume_ratio_20d": 0.016955256462097168
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#00e5a0"
+    },
+    {
+      "ticker": "MCHP",
+      "name": "MCHP",
+      "sector": "Technology",
+      "riskScore": 0,
+      "rec": "HOLD",
+      "confidence": 0.45466136932373047,
+      "price": 61.94,
+      "features": {
+        "momentum_60d": -0.077999404584698,
+        "volatility_30d": 0.022915428174485473,
+        "volume_ratio_20d": 0.8287734554133145,
+        "drawdown_60d": -0.23294117647058832
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
       },
       "color": "#ffb627"
+    },
+    {
+      "ticker": "M",
+      "name": "M",
+      "sector": "Consumer Cyclical",
+      "riskScore": 40,
+      "rec": "HOLD",
+      "confidence": 0.7818115949630737,
+      "price": 17.05,
+      "features": {
+        "momentum_60d": -0.28481543624161065,
+        "volatility_30d": 0.030996992411610313,
+        "volume_ratio_20d": 0.8339360691692463,
+        "drawdown_60d": -0.2845153168275283
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ffb627"
+    },
+    {
+      "ticker": "KR",
+      "name": "KR",
+      "sector": "Consumer Defensive",
+      "riskScore": 0,
+      "rec": "HOLD",
+      "confidence": 0.44859030842781067,
+      "price": 75.6,
+      "features": {
+        "momentum_60d": 0.20651133099265873,
+        "volatility_30d": 0.02213706087620842,
+        "volume_ratio_20d": 0.8705873240810331,
+        "drawdown_60d": 0.0
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ffb627"
+    },
+    {
+      "ticker": "MDY",
+      "name": "MDY",
+      "sector": null,
+      "riskScore": 0,
+      "rec": "BUY",
+      "confidence": 0.47129955887794495,
+      "price": 611.01,
+      "features": {
+        "momentum_60d": -0.001519756838905928,
+        "volatility_30d": 0.011317964327422058,
+        "volume_ratio_20d": 3.7322513856044313,
+        "drawdown_60d": -0.07227342433306516
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#00e5a0"
+    },
+    {
+      "ticker": "NTR",
+      "name": "NTR",
+      "sector": "Basic Materials",
+      "riskScore": 0,
+      "rec": "HOLD",
+      "confidence": 0.44270089268684387,
+      "price": 82.85,
+      "features": {
+        "momentum_60d": 0.33953112368633787,
+        "volatility_30d": 0.022491637706786537,
+        "volume_ratio_20d": 1.3216509955290112,
+        "drawdown_60d": -0.012985465808911134
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ffb627"
+    },
+    {
+      "ticker": "KNX",
+      "name": "KNX",
+      "sector": "Industrials",
+      "riskScore": 38,
+      "rec": "HOLD",
+      "confidence": 0.7739430069923401,
+      "price": 51.93,
+      "features": {
+        "momentum_60d": -0.023872180451127822,
+        "volatility_30d": 0.03050512591474444,
+        "volume_ratio_20d": 1.6928263070937484,
+        "drawdown_60d": -0.1822047244094488
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ffb627"
+    },
+    {
+      "ticker": "LW",
+      "name": "LW",
+      "sector": "Consumer Defensive",
+      "riskScore": 0,
+      "rec": "BUY",
+      "confidence": 0.427771657705307,
+      "price": 40.55,
+      "features": {
+        "momentum_60d": -0.3180289270097545,
+        "volatility_30d": 0.02298950146945617,
+        "volume_ratio_20d": 2.19846485123932,
+        "drawdown_60d": -0.32190635451505023
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#00e5a0"
     },
     {
       "ticker": "MFG",
       "name": "MFG",
       "sector": "Financial Services",
-      "riskScore": 43,
-      "rec": "AVOID",
-      "confidence": 0.6106125116348267,
+      "riskScore": 18,
+      "rec": "HOLD",
+      "confidence": 0.4969337284564972,
       "price": 7.63,
       "features": {
         "momentum_60d": 0.005270092226614009,
-        "volatility_30d": 0.027096354881709334,
+        "volatility_30d": 0.027096354881709327,
         "volume_ratio_20d": 0.8109484018248527,
         "drawdown_60d": -0.24380574826560952
       },
       "shap": {
-        "volatility_30d": 0.8706607818603516,
-        "drawdown_60d": 0.07302361726760864,
-        "momentum_60d": 0.03936042636632919,
-        "volume_ratio_20d": 0.016955256462097168
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
       },
-      "color": "#ff4d6a"
+      "color": "#ffb627"
+    },
+    {
+      "ticker": "LEN",
+      "name": "LEN",
+      "sector": "Consumer Cyclical",
+      "riskScore": 0,
+      "rec": "HOLD",
+      "confidence": 0.4251861870288849,
+      "price": 94.96,
+      "features": {
+        "momentum_60d": -0.20688215150755873,
+        "volatility_30d": 0.022804432337561253,
+        "volume_ratio_20d": 1.658263202042641,
+        "drawdown_60d": -0.22997080765488165
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ffb627"
+    },
+    {
+      "ticker": "KSS",
+      "name": "KSS",
+      "sector": "Consumer Cyclical",
+      "riskScore": 57,
+      "rec": "HOLD",
+      "confidence": 0.6959497332572937,
+      "price": 13.18,
+      "features": {
+        "momentum_60d": -0.4057709648331831,
+        "volatility_30d": 0.0338064076770136,
+        "volume_ratio_20d": 0.8037725351543922,
+        "drawdown_60d": -0.4318965517241379
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ffb627"
+    },
+    {
+      "ticker": "LYV",
+      "name": "LYV",
+      "sector": "Communication Services",
+      "riskScore": 0,
+      "rec": "HOLD",
+      "confidence": 0.45631349086761475,
+      "price": 153.97,
+      "features": {
+        "momentum_60d": 0.08689820697444595,
+        "volatility_30d": 0.023981243538172194,
+        "volume_ratio_20d": 1.1162573215911198,
+        "drawdown_60d": -0.07151902550805045
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ffb627"
     },
     {
       "ticker": "MMM",
       "name": "MMM",
       "sector": "Industrials",
-      "riskScore": 5,
+      "riskScore": 0,
       "rec": "HOLD",
-      "confidence": 0.5335685610771179,
+      "confidence": 0.44779667258262634,
       "price": 150.96,
       "features": {
         "momentum_60d": -0.08895594447797217,
-        "volatility_30d": 0.0206422916881442,
+        "volatility_30d": 0.020642291688144205,
         "volume_ratio_20d": 0.9806249946496466,
         "drawdown_60d": -0.13544470534333664
       },
       "shap": {
-        "volatility_30d": 0.8706607818603516,
-        "drawdown_60d": 0.07302361726760864,
-        "momentum_60d": 0.03936042636632919,
-        "volume_ratio_20d": 0.016955256462097168
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
       },
       "color": "#ffb627"
     },
@@ -115,22 +665,66 @@
       "name": "MNST",
       "sector": "Consumer Defensive",
       "riskScore": 0,
-      "rec": "HOLD",
-      "confidence": 0.5382279753684998,
+      "rec": "BUY",
+      "confidence": 0.4729701578617096,
       "price": 77.11,
       "features": {
         "momentum_60d": 0.030193720774883248,
-        "volatility_30d": 0.015356769590607751,
+        "volatility_30d": 0.015356769590607722,
         "volume_ratio_20d": 0.5785353210657936,
         "drawdown_60d": -0.11020078467574423
       },
       "shap": {
-        "volatility_30d": 0.8706607818603516,
-        "drawdown_60d": 0.07302361726760864,
-        "momentum_60d": 0.03936042636632919,
-        "volume_ratio_20d": 0.016955256462097168
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
       },
-      "color": "#ffb627"
+      "color": "#00e5a0"
+    },
+    {
+      "ticker": "LITE",
+      "name": "LITE",
+      "sector": "Technology",
+      "riskScore": 100,
+      "rec": "AVOID",
+      "confidence": 0.999395489692688,
+      "price": 622.5,
+      "features": {
+        "momentum_60d": 0.8599300845558577,
+        "volatility_30d": 0.06540733542113529,
+        "volume_ratio_20d": 0.671188886065049,
+        "drawdown_60d": -0.20523459942547084
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ff4d6a"
+    },
+    {
+      "ticker": "LRMR",
+      "name": "LRMR",
+      "sector": "Healthcare",
+      "riskScore": 100,
+      "rec": "AVOID",
+      "confidence": 0.9991815686225891,
+      "price": 4.59,
+      "features": {
+        "momentum_60d": 0.17091836734693877,
+        "volatility_30d": 0.1354182753794179,
+        "volume_ratio_20d": 0.3824280968881554,
+        "drawdown_60d": -0.22857142857142865
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ff4d6a"
     },
     {
       "ticker": "MNKD",
@@ -138,19 +732,19 @@
       "sector": "Healthcare",
       "riskScore": 100,
       "rec": "AVOID",
-      "confidence": 0.999984860420227,
+      "confidence": 0.9995324611663818,
       "price": 2.77,
       "features": {
         "momentum_60d": -0.5336700336700337,
-        "volatility_30d": 0.07551395541218713,
+        "volatility_30d": 0.07551395541218708,
         "volume_ratio_20d": 0.47367826241385774,
         "drawdown_60d": -0.5539452495974235
       },
       "shap": {
-        "volatility_30d": 0.8706607818603516,
-        "drawdown_60d": 0.07302361726760864,
-        "momentum_60d": 0.03936042636632919,
-        "volume_ratio_20d": 0.016955256462097168
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
       },
       "color": "#ff4d6a"
     },
@@ -158,395 +752,571 @@
       "ticker": "MGM",
       "name": "MGM",
       "sector": "Consumer Cyclical",
-      "riskScore": 88,
+      "riskScore": 62,
       "rec": "AVOID",
-      "confidence": 0.999921441078186,
+      "confidence": 0.9987300038337708,
       "price": 36.68,
       "features": {
         "momentum_60d": -0.01872659176029967,
-        "volatility_30d": 0.034773489102827716,
+        "volatility_30d": 0.034773489102827945,
         "volume_ratio_20d": 0.76722961876301,
         "drawdown_60d": -0.036258539148712576
       },
       "shap": {
-        "volatility_30d": 0.8706607818603516,
-        "drawdown_60d": 0.07302361726760864,
-        "momentum_60d": 0.03936042636632919,
-        "volume_ratio_20d": 0.016955256462097168
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
       },
       "color": "#ff4d6a"
+    },
+    {
+      "ticker": "KMB",
+      "name": "KMB",
+      "sector": "Consumer Defensive",
+      "riskScore": 0,
+      "rec": "HOLD",
+      "confidence": 0.4288921058177948,
+      "price": 98.84,
+      "features": {
+        "momentum_60d": -0.03852140077821009,
+        "volatility_30d": 0.015449982698574338,
+        "volume_ratio_20d": 0.748075393734679,
+        "drawdown_60d": -0.11306532663316582
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ffb627"
+    },
+    {
+      "ticker": "LBRT",
+      "name": "LBRT",
+      "sector": "Energy",
+      "riskScore": 45,
+      "rec": "HOLD",
+      "confidence": 0.6686675548553467,
+      "price": 30.22,
+      "features": {
+        "momentum_60d": 0.5797177208572923,
+        "volatility_30d": 0.03180200832375719,
+        "volume_ratio_20d": 0.845077886835541,
+        "drawdown_60d": -0.0026402640264027166
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ffb627"
+    },
+    {
+      "ticker": "MET",
+      "name": "MET",
+      "sector": "Financial Services",
+      "riskScore": 0,
+      "rec": "HOLD",
+      "confidence": 0.43912896513938904,
+      "price": 67.97,
+      "features": {
+        "momentum_60d": -0.17721825444861394,
+        "volatility_30d": 0.0191964316151827,
+        "volume_ratio_20d": 0.7568228854830117,
+        "drawdown_60d": -0.176420695504665
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ffb627"
     },
     {
       "ticker": "MKC",
       "name": "MKC",
       "sector": "Consumer Defensive",
-      "riskScore": 21,
+      "riskScore": 0,
       "rec": "HOLD",
-      "confidence": 0.7613358497619629,
+      "confidence": 0.44645044207572937,
       "price": 58.29,
       "features": {
         "momentum_60d": -0.14842951059167275,
-        "volatility_30d": 0.02328485375168978,
+        "volatility_30d": 0.023284853751689753,
         "volume_ratio_20d": 1.0126402763403808,
         "drawdown_60d": -0.18646196789951164
       },
       "shap": {
-        "volatility_30d": 0.8706607818603516,
-        "drawdown_60d": 0.07302361726760864,
-        "momentum_60d": 0.03936042636632919,
-        "volume_ratio_20d": 0.016955256462097168
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
       },
       "color": "#ffb627"
+    },
+    {
+      "ticker": "KMX",
+      "name": "KMX",
+      "sector": "Consumer Cyclical",
+      "riskScore": 51,
+      "rec": "HOLD",
+      "confidence": 0.7282966375350952,
+      "price": 41.84,
+      "features": {
+        "momentum_60d": 0.022482893450635366,
+        "volatility_30d": 0.03284103948019997,
+        "volume_ratio_20d": 0.8642485822306238,
+        "drawdown_60d": -0.14314970305140273
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ffb627"
+    },
+    {
+      "ticker": "NTLA",
+      "name": "NTLA",
+      "sector": "Healthcare",
+      "riskScore": 100,
+      "rec": "AVOID",
+      "confidence": 0.9993693232536316,
+      "price": 12.76,
+      "features": {
+        "momentum_60d": 0.3960612691466081,
+        "volatility_30d": 0.052325567196357135,
+        "volume_ratio_20d": 0.7126049832114335,
+        "drawdown_60d": -0.19748427672955982
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ff4d6a"
+    },
+    {
+      "ticker": "LKQ",
+      "name": "LKQ",
+      "sector": "Consumer Cyclical",
+      "riskScore": 0,
+      "rec": "HOLD",
+      "confidence": 0.4497946500778198,
+      "price": 29.34,
+      "features": {
+        "momentum_60d": -0.038663171690694664,
+        "volatility_30d": 0.018719758578742984,
+        "volume_ratio_20d": 1.2159109750241706,
+        "drawdown_60d": -0.15689655172413786
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ffb627"
+    },
+    {
+      "ticker": "MA",
+      "name": "MA",
+      "sector": "Financial Services",
+      "riskScore": 0,
+      "rec": "BUY",
+      "confidence": 0.4463505148887634,
+      "price": 497.99,
+      "features": {
+        "momentum_60d": -0.12499780366524338,
+        "volatility_30d": 0.016280612950148887,
+        "volume_ratio_20d": 0.7494573258673113,
+        "drawdown_60d": -0.14189957611055593
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#00e5a0"
+    },
+    {
+      "ticker": "LOW",
+      "name": "LOW",
+      "sector": "Consumer Cyclical",
+      "riskScore": 0,
+      "rec": "HOLD",
+      "confidence": 0.45624586939811707,
+      "price": 237.59,
+      "features": {
+        "momentum_60d": -0.04497949995980388,
+        "volatility_30d": 0.016916249161844314,
+        "volume_ratio_20d": 0.9843611516139177,
+        "drawdown_60d": -0.17328369115139697
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ffb627"
+    },
+    {
+      "ticker": "KTOS",
+      "name": "KTOS",
+      "sector": "Industrials",
+      "riskScore": 100,
+      "rec": "AVOID",
+      "confidence": 0.9993447661399841,
+      "price": 87.53,
+      "features": {
+        "momentum_60d": 0.1786964718556423,
+        "volatility_30d": 0.05575014261870321,
+        "volume_ratio_20d": 0.5339097635620127,
+        "drawdown_60d": -0.3304008567931457
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ff4d6a"
+    },
+    {
+      "ticker": "KRG",
+      "name": "KRG",
+      "sector": "Real Estate",
+      "riskScore": 0,
+      "rec": "BUY",
+      "confidence": 0.491224467754364,
+      "price": 25.14,
+      "features": {
+        "momentum_60d": 0.06435224386113458,
+        "volatility_30d": 0.012092380125007816,
+        "volume_ratio_20d": 1.3222687424498965,
+        "drawdown_60d": -0.04192073170731703
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#00e5a0"
+    },
+    {
+      "ticker": "MAT",
+      "name": "MAT",
+      "sector": "Consumer Cyclical",
+      "riskScore": 100,
+      "rec": "AVOID",
+      "confidence": 0.9992361068725586,
+      "price": 16.06,
+      "features": {
+        "momentum_60d": -0.213901125795399,
+        "volatility_30d": 0.04874839873071021,
+        "volume_ratio_20d": 0.46664582531742976,
+        "drawdown_60d": -0.2752707581227437
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ff4d6a"
+    },
+    {
+      "ticker": "LIN",
+      "name": "LIN",
+      "sector": "Basic Materials",
+      "riskScore": 0,
+      "rec": "BUY",
+      "confidence": 0.500991702079773,
+      "price": 493.92,
+      "features": {
+        "momentum_60d": 0.18448883666274973,
+        "volatility_30d": 0.013666919135228463,
+        "volume_ratio_20d": 0.927608109741041,
+        "drawdown_60d": -0.030274472847213962
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#00e5a0"
+    },
+    {
+      "ticker": "LVS",
+      "name": "LVS",
+      "sector": "Consumer Cyclical",
+      "riskScore": 0,
+      "rec": "BUY",
+      "confidence": 0.4312759041786194,
+      "price": 53.68,
+      "features": {
+        "momentum_60d": -0.19868637110016418,
+        "volatility_30d": 0.01786106906836833,
+        "volume_ratio_20d": 0.6427718534048712,
+        "drawdown_60d": -0.20261437908496727
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#00e5a0"
+    },
+    {
+      "ticker": "MPC",
+      "name": "MPC",
+      "sector": "Energy",
+      "riskScore": 14,
+      "rec": "HOLD",
+      "confidence": 0.49902278184890747,
+      "price": 226.18,
+      "features": {
+        "momentum_60d": 0.21923346450326142,
+        "volatility_30d": 0.026427577163682804,
+        "volume_ratio_20d": 0.9600079385059805,
+        "drawdown_60d": -0.01690789759638367
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ffb627"
+    },
+    {
+      "ticker": "LC",
+      "name": "LC",
+      "sector": "Financial Services",
+      "riskScore": 100,
+      "rec": "AVOID",
+      "confidence": 0.9991160035133362,
+      "price": 13.8,
+      "features": {
+        "momentum_60d": -0.27635028841111686,
+        "volatility_30d": 0.0439838107869289,
+        "volume_ratio_20d": 1.3905158060918246,
+        "drawdown_60d": -0.36051899907321583
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ff4d6a"
     },
     {
       "ticker": "MGY",
       "name": "MGY",
       "sector": "Energy",
       "riskScore": 0,
-      "rec": "AVOID",
-      "confidence": 0.42034444212913513,
+      "rec": "BUY",
+      "confidence": 0.45620837807655334,
       "price": 29.5,
       "features": {
         "momentum_60d": 0.3205013428827215,
-        "volatility_30d": 0.01877674595657783,
+        "volatility_30d": 0.018776745956577877,
         "volume_ratio_20d": 0.7534010778983357,
         "drawdown_60d": 0.0
       },
       "shap": {
-        "volatility_30d": 0.8706607818603516,
-        "drawdown_60d": 0.07302361726760864,
-        "momentum_60d": 0.03936042636632919,
-        "volume_ratio_20d": 0.016955256462097168
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
       },
-      "color": "#ff4d6a"
+      "color": "#00e5a0"
     },
     {
-      "ticker": "A",
-      "name": "A",
-      "sector": "Healthcare",
-      "riskScore": 0,
-      "rec": "HOLD",
-      "confidence": 0.5065482258796692,
-      "price": 111.51,
-      "features": {
-        "momentum_60d": -0.20689900426742525,
-        "volatility_30d": 0.016425170174807456,
-        "volume_ratio_20d": 0.6327519468937046,
-        "drawdown_60d": -0.24919202800969564
-      },
-      "shap": {
-        "volatility_30d": 0.8706607818603516,
-        "drawdown_60d": 0.07302361726760864,
-        "momentum_60d": 0.03936042636632919,
-        "volume_ratio_20d": 0.016955256462097168
-      },
-      "color": "#ffb627"
-    },
-    {
-      "ticker": "MGA",
-      "name": "MGA",
-      "sector": "Consumer Cyclical",
-      "riskScore": 100,
-      "rec": "AVOID",
-      "confidence": 0.9999477863311768,
-      "price": 55.06,
-      "features": {
-        "momentum_60d": 0.05156608097784576,
-        "volatility_30d": 0.040038215963114,
-        "volume_ratio_20d": 0.6747248931403107,
-        "drawdown_60d": -0.19889422377418886
-      },
-      "shap": {
-        "volatility_30d": 0.8706607818603516,
-        "drawdown_60d": 0.07302361726760864,
-        "momentum_60d": 0.03936042636632919,
-        "volume_ratio_20d": 0.016955256462097168
-      },
-      "color": "#ff4d6a"
-    },
-    {
-      "ticker": "MGNI",
-      "name": "MGNI",
-      "sector": "Communication Services",
-      "riskScore": 100,
-      "rec": "AVOID",
-      "confidence": 0.9999599456787109,
-      "price": 11.88,
-      "features": {
-        "momentum_60d": -0.2499999999999999,
-        "volatility_30d": 0.0517648373184492,
-        "volume_ratio_20d": 0.7047659042056934,
-        "drawdown_60d": -0.2962085308056871
-      },
-      "shap": {
-        "volatility_30d": 0.8706607818603516,
-        "drawdown_60d": 0.07302361726760864,
-        "momentum_60d": 0.03936042636632919,
-        "volume_ratio_20d": 0.016955256462097168
-      },
-      "color": "#ff4d6a"
-    },
-    {
-      "ticker": "MOH",
-      "name": "MOH",
-      "sector": "Healthcare",
-      "riskScore": 100,
-      "rec": "AVOID",
-      "confidence": 0.9999666213989258,
-      "price": 149.2,
-      "features": {
-        "momentum_60d": -0.10390390390390403,
-        "volatility_30d": 0.05632862766085851,
-        "volume_ratio_20d": 1.0078317818761295,
-        "drawdown_60d": -0.26098370399722626
-      },
-      "shap": {
-        "volatility_30d": 0.8706607818603516,
-        "drawdown_60d": 0.07302361726760864,
-        "momentum_60d": 0.03936042636632919,
-        "volume_ratio_20d": 0.016955256462097168
-      },
-      "color": "#ff4d6a"
-    },
-    {
-      "ticker": "MFC",
-      "name": "MFC",
-      "sector": "Financial Services",
-      "riskScore": 0,
-      "rec": "HOLD",
-      "confidence": 0.5780633687973022,
-      "price": 33.41,
-      "features": {
-        "momentum_60d": -0.0657158836689038,
-        "volatility_30d": 0.01582991747421577,
-        "volume_ratio_20d": 0.4502320487854421,
-        "drawdown_60d": -0.1333333333333333
-      },
-      "shap": {
-        "volatility_30d": 0.8706607818603516,
-        "drawdown_60d": 0.07302361726760864,
-        "momentum_60d": 0.03936042636632919,
-        "volume_ratio_20d": 0.016955256462097168
-      },
-      "color": "#ffb627"
-    },
-    {
-      "ticker": "MFA",
-      "name": "MFA",
-      "sector": "Real Estate",
-      "riskScore": 0,
-      "rec": "HOLD",
-      "confidence": 0.5705799460411072,
-      "price": 9.82,
-      "features": {
-        "momentum_60d": 0.022916666666666696,
-        "volatility_30d": 0.01398454153098234,
-        "volume_ratio_20d": 0.9308900562823642,
-        "drawdown_60d": -0.040078201368523914
-      },
-      "shap": {
-        "volatility_30d": 0.8706607818603516,
-        "drawdown_60d": 0.07302361726760864,
-        "momentum_60d": 0.03936042636632919,
-        "volume_ratio_20d": 0.016955256462097168
-      },
-      "color": "#ffb627"
-    },
-    {
-      "ticker": "MFIC",
-      "name": "MFIC",
-      "sector": "Financial Services",
-      "riskScore": 21,
-      "rec": "HOLD",
-      "confidence": 0.7434799671173096,
-      "price": 10.33,
-      "features": {
-        "momentum_60d": -0.12531752751905167,
-        "volatility_30d": 0.023283612205688576,
-        "volume_ratio_20d": 0.9103938415620683,
-        "drawdown_60d": -0.12457627118644077
-      },
-      "shap": {
-        "volatility_30d": 0.8706607818603516,
-        "drawdown_60d": 0.07302361726760864,
-        "momentum_60d": 0.03936042636632919,
-        "volume_ratio_20d": 0.016955256462097168
-      },
-      "color": "#ffb627"
-    },
-    {
-      "ticker": "METC",
-      "name": "METC",
+      "ticker": "LXU",
+      "name": "LXU",
       "sector": "Basic Materials",
       "riskScore": 100,
       "rec": "AVOID",
-      "confidence": 0.9999778270721436,
-      "price": 14.6,
+      "confidence": 0.9991807341575623,
+      "price": 14.92,
       "features": {
-        "momentum_60d": -0.029255319148936088,
-        "volatility_30d": 0.055884126557406814,
-        "volume_ratio_20d": 0.6188133751810719,
-        "drawdown_60d": -0.47330447330447334
+        "momentum_60d": 0.6801801801801801,
+        "volatility_30d": 0.04990488564854546,
+        "volume_ratio_20d": 1.7057772964391782,
+        "drawdown_60d": -0.033678756476683946
       },
       "shap": {
-        "volatility_30d": 0.8706607818603516,
-        "drawdown_60d": 0.07302361726760864,
-        "momentum_60d": 0.03936042636632919,
-        "volume_ratio_20d": 0.016955256462097168
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
       },
       "color": "#ff4d6a"
     },
     {
-      "ticker": "MMYT",
-      "name": "MMYT",
+      "ticker": "LULU",
+      "name": "LULU",
       "sector": "Consumer Cyclical",
-      "riskScore": 100,
-      "rec": "AVOID",
-      "confidence": 0.9999902248382568,
-      "price": 45.5,
-      "features": {
-        "momentum_60d": -0.4621113606809316,
-        "volatility_30d": 0.03929806248841888,
-        "volume_ratio_20d": 0.7608113327436054,
-        "drawdown_60d": -0.4733186711424934
-      },
-      "shap": {
-        "volatility_30d": 0.8706607818603516,
-        "drawdown_60d": 0.07302361726760864,
-        "momentum_60d": 0.03936042636632919,
-        "volume_ratio_20d": 0.016955256462097168
-      },
-      "color": "#ff4d6a"
-    },
-    {
-      "ticker": "NAGE",
-      "name": "NAGE",
-      "sector": "Healthcare",
-      "riskScore": 56,
-      "rec": "AVOID",
-      "confidence": 0.99996018409729,
-      "price": 4.78,
-      "features": {
-        "momentum_60d": -0.249607535321821,
-        "volatility_30d": 0.029344968468620655,
-        "volume_ratio_20d": 0.6819634502134865,
-        "drawdown_60d": -0.2928994082840236
-      },
-      "shap": {
-        "volatility_30d": 0.8706607818603516,
-        "drawdown_60d": 0.07302361726760864,
-        "momentum_60d": 0.03936042636632919,
-        "volume_ratio_20d": 0.016955256462097168
-      },
-      "color": "#ff4d6a"
-    },
-    {
-      "ticker": "MI",
-      "name": "MI",
-      "sector": "Consumer Cyclical",
-      "riskScore": 100,
-      "rec": "AVOID",
-      "confidence": 0.9999794960021973,
-      "price": 0.57,
-      "features": {
-        "momentum_60d": -0.858560794044665,
-        "volatility_30d": 0.17042120170748132,
-        "volume_ratio_20d": 1.233817021714521,
-        "drawdown_60d": -0.8983957219251337
-      },
-      "shap": {
-        "volatility_30d": 0.8706607818603516,
-        "drawdown_60d": 0.07302361726760864,
-        "momentum_60d": 0.03936042636632919,
-        "volume_ratio_20d": 0.016955256462097168
-      },
-      "color": "#ff4d6a"
-    },
-    {
-      "ticker": "MGNX",
-      "name": "MGNX",
-      "sector": "Healthcare",
-      "riskScore": 100,
-      "rec": "AVOID",
-      "confidence": 0.9999618530273438,
-      "price": 3.0,
-      "features": {
-        "momentum_60d": 1.1897810218978102,
-        "volatility_30d": 0.09186483413616098,
-        "volume_ratio_20d": 0.6502290385442766,
-        "drawdown_60d": -0.12536443148688048
-      },
-      "shap": {
-        "volatility_30d": 0.8706607818603516,
-        "drawdown_60d": 0.07302361726760864,
-        "momentum_60d": 0.03936042636632919,
-        "volume_ratio_20d": 0.016955256462097168
-      },
-      "color": "#ff4d6a"
-    },
-    {
-      "ticker": "MNRO",
-      "name": "MNRO",
-      "sector": "Consumer Cyclical",
-      "riskScore": 86,
-      "rec": "AVOID",
-      "confidence": 0.9999653100967407,
-      "price": 15.31,
-      "features": {
-        "momentum_60d": -0.2546251217137293,
-        "volatility_30d": 0.034367743424380426,
-        "volume_ratio_20d": 1.2661878152014299,
-        "drawdown_60d": -0.3569928601427971
-      },
-      "shap": {
-        "volatility_30d": 0.8706607818603516,
-        "drawdown_60d": 0.07302361726760864,
-        "momentum_60d": 0.03936042636632919,
-        "volume_ratio_20d": 0.016955256462097168
-      },
-      "color": "#ff4d6a"
-    },
-    {
-      "ticker": "MMSI",
-      "name": "MMSI",
-      "sector": "Healthcare",
-      "riskScore": 0,
+      "riskScore": 12,
       "rec": "HOLD",
-      "confidence": 0.4925435781478882,
-      "price": 69.95,
+      "confidence": 0.4468615651130676,
+      "price": 157.78,
       "features": {
-        "momentum_60d": -0.19048721212822584,
-        "volatility_30d": 0.018643513151205975,
-        "volume_ratio_20d": 1.1087227599311205,
-        "drawdown_60d": -0.24930242541317882
+        "momentum_60d": -0.23515439429928742,
+        "volatility_30d": 0.026024546043787556,
+        "volume_ratio_20d": 1.1218020902784436,
+        "drawdown_60d": -0.26913099870298307
       },
       "shap": {
-        "volatility_30d": 0.8706607818603516,
-        "drawdown_60d": 0.07302361726760864,
-        "momentum_60d": 0.03936042636632919,
-        "volume_ratio_20d": 0.016955256462097168
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
       },
       "color": "#ffb627"
     },
     {
-      "ticker": "MLCO",
-      "name": "MLCO",
-      "sector": "Consumer Cyclical",
-      "riskScore": 79,
-      "rec": "AVOID",
-      "confidence": 0.9999657869338989,
-      "price": 5.59,
+      "ticker": "NTNX",
+      "name": "NTNX",
+      "sector": "Technology",
+      "riskScore": 44,
+      "rec": "HOLD",
+      "confidence": 0.6775265336036682,
+      "price": 39.29,
       "features": {
-        "momentum_60d": -0.29949874686716793,
-        "volatility_30d": 0.03316975700728201,
-        "volume_ratio_20d": 0.34873608121016836,
-        "drawdown_60d": -0.30212234706616725
+        "momentum_60d": -0.17734505862646566,
+        "volatility_30d": 0.03158989726381579,
+        "volume_ratio_20d": 0.4037013999177721,
+        "drawdown_60d": -0.2657447206129695
       },
       "shap": {
-        "volatility_30d": 0.8706607818603516,
-        "drawdown_60d": 0.07302361726760864,
-        "momentum_60d": 0.03936042636632919,
-        "volume_ratio_20d": 0.016955256462097168
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ffb627"
+    },
+    {
+      "ticker": "MCD",
+      "name": "MCD",
+      "sector": "Consumer Cyclical",
+      "riskScore": 0,
+      "rec": "BUY",
+      "confidence": 0.46138715744018555,
+      "price": 326.46,
+      "features": {
+        "momentum_60d": 0.02425250211777974,
+        "volatility_30d": 0.010213152143534934,
+        "volume_ratio_20d": 0.7508211243924906,
+        "drawdown_60d": -0.042807717117222865
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#00e5a0"
+    },
+    {
+      "ticker": "KODK",
+      "name": "KODK",
+      "sector": "Industrials",
+      "riskScore": 0,
+      "rec": "HOLD",
+      "confidence": 0.43558692932128906,
+      "price": 6.97,
+      "features": {
+        "momentum_60d": -0.17319098457888493,
+        "volatility_30d": 0.020514279136999325,
+        "volume_ratio_20d": 3.4508274299480886,
+        "drawdown_60d": -0.2203579418344519
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ffb627"
+    },
+    {
+      "ticker": "LNG",
+      "name": "LNG",
+      "sector": "Energy",
+      "riskScore": 0,
+      "rec": "BUY",
+      "confidence": 0.4551008343696594,
+      "price": 252.27,
+      "features": {
+        "momentum_60d": 0.33596356511147585,
+        "volatility_30d": 0.018538261601513555,
+        "volume_ratio_20d": 0.7908341814566984,
+        "drawdown_60d": -0.011287477954144642
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#00e5a0"
+    },
+    {
+      "ticker": "LGO",
+      "name": "LGO",
+      "sector": "Basic Materials",
+      "riskScore": 100,
+      "rec": "AVOID",
+      "confidence": 0.9993318915367126,
+      "price": 1.25,
+      "features": {
+        "momentum_60d": 0.3020833333333335,
+        "volatility_30d": 0.07672820107119041,
+        "volume_ratio_20d": 1.2797360315295674,
+        "drawdown_60d": -0.3315508021390374
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
+      },
+      "color": "#ff4d6a"
+    },
+    {
+      "ticker": "LXRX",
+      "name": "LXRX",
+      "sector": "Healthcare",
+      "riskScore": 100,
+      "rec": "AVOID",
+      "confidence": 0.9990069270133972,
+      "price": 1.69,
+      "features": {
+        "momentum_60d": 0.3739837398373984,
+        "volatility_30d": 0.05797646753580393,
+        "volume_ratio_20d": 0.8694574075903658,
+        "drawdown_60d": -0.03977272727272729
+      },
+      "shap": {
+        "volatility_30d": 0.8997994065284729,
+        "drawdown_60d": 0.06342896074056625,
+        "momentum_60d": 0.027762291952967644,
+        "volume_ratio_20d": 0.009009389206767082
       },
       "color": "#ff4d6a"
     }
@@ -554,9 +1324,9 @@
   "models": [
     {
       "name": "XGBoost (baseline)",
-      "accuracy": 70.99117799688635,
-      "auc": 0.8288432445882684,
-      "f1": 0.5297858497724246,
+      "accuracy": 67.4370548853949,
+      "auc": 0.8308937122793904,
+      "f1": 0.605923679723888,
       "precision": null,
       "recall": null,
       "calibrated": false,
@@ -567,7 +1337,7 @@
   "globalFeatures": [
     {
       "name": "momentum_60d",
-      "imp": 0.04520753338886735
+      "imp": 0.030853867819359518
     },
     {
       "name": "volatility_30d",
@@ -575,28 +1345,28 @@
     },
     {
       "name": "volume_ratio_20d",
-      "imp": 0.019474009643421247
+      "imp": 0.010012664090907014
     },
     {
       "name": "drawdown_60d",
-      "imp": 0.08387149023937679
+      "imp": 0.07049233449184225
     }
   ],
   "confusion": [
     [
-      149,
-      2933,
-      67
+      8285,
+      12514,
+      0
     ],
     [
-      164,
-      7367,
-      126
+      11126,
+      29521,
+      94
     ],
     [
-      52,
-      3925,
-      10268
+      5338,
+      13633,
+      50635
     ]
   ],
   "walkforward": {
@@ -604,12 +1374,12 @@
       "train/test split"
     ],
     "xgboost": [
-      70.99117799688635
+      67.4370548853949
     ]
   },
   "evaluation": {
-    "accuracy": 0.7099117799688636,
-    "f1_macro": 0.5297858497724246,
-    "roc_auc_ovr": 0.8288432445882684
+    "accuracy": 0.674370548853949,
+    "f1_macro": 0.605923679723888,
+    "roc_auc_ovr": 0.8308937122793904
   }
 }
