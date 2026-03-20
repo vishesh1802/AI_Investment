@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "build:data": "python ../ml/build_artifacts.py --no_dividends --no_earnings --no_shap --max_symbols 500 --topk_latest_by_volume 150 --out investiq/public",
+    "dev:fresh": "npm run build:data && npm run dev"
   },
   "dependencies": {
     "next": "16.2.0",

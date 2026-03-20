@@ -312,7 +312,7 @@ canvas{width:100%!important;border-radius:8px}
   </nav>
   <div class="header-badge">
     <div class="pulse"></div>
-    Live · 42 companies · XGBoost v2
+    <span id="data-status">Loading data...</span>
   </div>
 </header>
 
@@ -326,26 +326,28 @@ canvas{width:100%!important;border-radius:8px}
       <div class="hero-sub">ML-driven Buy / Hold / Avoid recommendations with SHAP explainability</div>
       <div style="display:flex;gap:8px;margin-top:12px">
         <span class="chip">Yahoo Finance Data</span>
-        <span class="chip">XGBoost + Calibrated Probabilities</span>
-        <span class="chip">SHAP Explanations</span>
-        <span class="chip">Confidence Guardrails</span>
+        <span class="chip">XGBoost + Confidence scores</span>
+        <span class="chip">SHAP / explainability</span>
+        <span class="chip">Abstain guardrails</span>
       </div>
     </div>
     <div class="hero-stats">
       <div class="hstat">
-        <div class="hstat-val" style="color:var(--green)">78.4%</div>
-        <div class="hstat-lbl">Model Accuracy</div>
+        <div class="hstat-val" id="hero-acc" style="color:var(--green)">—</div>
+        <div class="hstat-lbl">Holdout accuracy</div>
       </div>
       <div class="hstat">
-        <div class="hstat-val" style="color:var(--blue)">0.82</div>
-        <div class="hstat-lbl">ROC-AUC</div>
+        <div class="hstat-val" id="hero-auc" style="color:var(--blue)">—</div>
+        <div class="hstat-lbl">ROC-AUC (OVR)</div>
       </div>
       <div class="hstat">
-        <div class="hstat-val" style="color:var(--amber)">14.3%</div>
-        <div class="hstat-lbl">Abstain Rate</div>
+        <div class="hstat-val" id="hero-abstain" style="color:var(--amber)">—</div>
+        <div class="hstat-lbl">Abstain rate</div>
       </div>
     </div>
   </div>
+
+  <div id="trust-panel" class="card" style="display:none;margin-bottom:20px;padding:16px 20px;border:1px solid var(--border2)"></div>
 
   <div style="display:grid;grid-template-columns:300px 1fr;gap:24px">
     <!-- LEFT: Company List -->
@@ -359,6 +361,14 @@ canvas{width:100%!important;border-radius:8px}
         <button class="tab" id="filter-buy" onclick="setFilter('BUY',this)" style="padding:5px 14px;font-size:12px;color:var(--green)">Buy</button>
         <button class="tab" id="filter-hold" onclick="setFilter('HOLD',this)" style="padding:5px 14px;font-size:12px;color:var(--amber)">Hold</button>
         <button class="tab" id="filter-avoid" onclick="setFilter('AVOID',this)" style="padding:5px 14px;font-size:12px;color:var(--red)">Avoid</button>
+      </div>
+      <div style="margin-bottom:12px">
+        <div style="font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:6px;letter-spacing:1px;text-transform:uppercase">Risk Profile</div>
+        <select class="search-input" style="padding:8px 10px" onchange="setRiskProfile(this.value)">
+          <option value="balanced" selected>Balanced (50% abstain threshold)</option>
+          <option value="conservative">Conservative (60% threshold)</option>
+          <option value="aggressive">Aggressive (45% threshold)</option>
+        </select>
       </div>
       <div id="company-list" style="display:flex;flex-direction:column;gap:4px;max-height:520px;overflow-y:auto"></div>
     </div>
@@ -402,12 +412,12 @@ canvas{width:100%!important;border-radius:8px}
 <!-- ═══════════════ MODELS PAGE ═══════════════ -->
 <div class="page" id="page-models">
   <div class="section-header">
-    <div class="section-title">Model Architecture & Comparison</div>
-    <div class="section-sub">Supervised baselines with calibration · Walk-forward validation</div>
+    <div class="section-title">Model &amp; evaluation</div>
+    <div class="section-sub">XGBoost holdout metrics · confusion matrix · train vs test accuracy · feature importance</div>
   </div>
   <div class="grid-2" style="margin-bottom:24px">
     <div class="card">
-      <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:16px;text-transform:uppercase;letter-spacing:1px">Model Performance Comparison</div>
+      <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:16px;text-transform:uppercase;letter-spacing:1px">Holdout metrics (from artifact)</div>
       <table class="model-table" id="model-table"></table>
     </div>
     <div class="card">
@@ -418,7 +428,7 @@ canvas{width:100%!important;border-radius:8px}
           <div style="font-size:11px;color:var(--muted);text-align:center;font-family:'JetBrains Mono',monospace">Predicted →</div>
         </div>
         <div style="flex:1">
-          <div style="font-size:12px;color:var(--muted);margin-bottom:12px">Key insight: False Avoids (flagging healthy companies as risky) are <strong style="color:var(--amber)">12%</strong> — lower than false buys at <strong style="color:var(--red)">8%</strong>. Risk-asymmetric cost weighting applied.</div>
+          <div id="cm-insight" style="font-size:12px;color:var(--muted);margin-bottom:12px">Loading confusion insights…</div>
           <div id="model-metrics-detail"></div>
         </div>
       </div>
@@ -426,7 +436,7 @@ canvas{width:100%!important;border-radius:8px}
   </div>
   <div class="grid-2">
     <div class="card">
-      <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:16px;text-transform:uppercase;letter-spacing:1px">Walk-Forward Validation Accuracy</div>
+      <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:16px;text-transform:uppercase;letter-spacing:1px">Train vs holdout accuracy</div>
       <canvas id="walkforward-chart" height="200"></canvas>
     </div>
     <div class="card">
@@ -458,7 +468,17 @@ canvas{width:100%!important;border-radius:8px}
 <div class="page" id="page-report">
   <div class="section-header">
     <div class="section-title">Evaluation Report</div>
-    <div class="section-sub">Decision usefulness · Temporal stability · Risk sensitivity · Error patterns</div>
+    <div class="section-sub">Decision usefulness · Audit trail · Risk sensitivity · Error patterns</div>
+  </div>
+  <div class="grid-2" style="margin-bottom:24px">
+    <div class="card">
+      <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:16px;text-transform:uppercase;letter-spacing:1px">Trust &amp; audit trail</div>
+      <div id="report-trust"></div>
+    </div>
+    <div class="card">
+      <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:16px;text-transform:uppercase;letter-spacing:1px">Data quality</div>
+      <div id="report-dq"></div>
+    </div>
   </div>
   <div class="grid-2" style="margin-bottom:24px">
     <div class="card">
@@ -471,9 +491,9 @@ canvas{width:100%!important;border-radius:8px}
     </div>
   </div>
   <div class="card" style="margin-bottom:24px">
-    <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:16px;text-transform:uppercase;letter-spacing:1px">Calibration Curve — XGBoost (Platt Scaling Applied)</div>
+    <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:16px;text-transform:uppercase;letter-spacing:1px">Confidence reliability (holdout)</div>
     <canvas id="calib-chart" height="160"></canvas>
-    <div style="font-size:12px;color:var(--muted);margin-top:12px">After Platt scaling, predicted probabilities align closely with empirical frequencies. Pre-calibration overconfidence at 80%+ confidence bands reduced from 14% gap to 3%.</div>
+    <div style="font-size:12px;color:var(--muted);margin-top:12px">Green: empirical accuracy per confidence bin on the <strong style="color:var(--text)">holdout</strong> set. Gray dashed: perfect calibration (y = x by bin). Abstain threshold uses raw softmax max-prob (no Platt scaling in this build).</div>
   </div>
   <div class="card">
     <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:16px;text-transform:uppercase;letter-spacing:1px">Evaluation Summary — Key Findings</div>
@@ -486,75 +506,176 @@ canvas{width:100%!important;border-radius:8px}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <script>
 // ═══════════════ DATA ═══════════════
-const COMPANIES = [
-  { ticker:'AAPL', name:'Apple Inc.', sector:'Technology', riskScore:22, rec:'BUY', confidence:0.87, price:187.5, pe:28.3, volatility:18.2, momentum:12.4, debtRatio:0.31, earningsSurprise:6.2, returnFwd:14.8, features:{pe:28.3,volatility:18.2,momentum:12.4,debtRatio:0.31,earningsSurprise:6.2,volume:2.1,beta:1.18,sharpe:1.42}, shap:{momentum:0.38,earningsSurprise:0.29,pe:-0.12,volatility:-0.08,debtRatio:0.06}, color:'#5b8dee' },
-  { ticker:'VZ',   name:'Verizon Comm.', sector:'Telecom', riskScore:61, rec:'HOLD', confidence:0.64, price:38.7, pe:8.1, volatility:23.5, momentum:-3.2, debtRatio:1.42, earningsSurprise:-1.8, returnFwd:2.1, features:{pe:8.1,volatility:23.5,momentum:-3.2,debtRatio:1.42,earningsSurprise:-1.8,volume:0.9,beta:0.44,sharpe:0.28}, shap:{debtRatio:-0.31,momentum:-0.22,earningsSurprise:-0.14,pe:0.11,volatility:-0.09}, color:'#ff4d6a' },
-  { ticker:'TGT',  name:'Target Corp.', sector:'Retail', riskScore:48, rec:'HOLD', confidence:0.71, price:142.3, pe:16.2, volatility:28.9, momentum:4.1, debtRatio:0.84, earningsSurprise:3.1, returnFwd:5.4, features:{pe:16.2,volatility:28.9,momentum:4.1,debtRatio:0.84,earningsSurprise:3.1,volume:1.1,beta:0.88,sharpe:0.61}, shap:{volatility:-0.28,debtRatio:-0.18,momentum:0.15,earningsSurprise:0.12,pe:0.08}, color:'#ffb627' },
-  { ticker:'NVDA', name:'NVIDIA Corp.', sector:'Technology', riskScore:31, rec:'BUY', confidence:0.91, price:481.2, pe:52.1, volatility:42.1, momentum:38.7, debtRatio:0.22, earningsSurprise:18.4, returnFwd:28.3, features:{pe:52.1,volatility:42.1,momentum:38.7,debtRatio:0.22,earningsSurprise:18.4,volume:3.2,beta:1.72,sharpe:1.89}, shap:{momentum:0.52,earningsSurprise:0.41,debtRatio:0.18,pe:-0.14,volatility:0.09}, color:'#00e5a0' },
-  { ticker:'T',    name:'AT&T Inc.', sector:'Telecom', riskScore:74, rec:'AVOID', confidence:0.83, price:16.8, pe:6.2, volatility:19.4, momentum:-8.7, debtRatio:1.78, earningsSurprise:-4.2, returnFwd:-9.1, features:{pe:6.2,volatility:19.4,momentum:-8.7,debtRatio:1.78,earningsSurprise:-4.2,volume:0.7,beta:0.52,sharpe:-0.31}, shap:{debtRatio:-0.44,momentum:-0.38,earningsSurprise:-0.21,pe:0.08,volatility:-0.06}, color:'#ff4d6a' },
-  { ticker:'AMZN', name:'Amazon.com', sector:'Retail', riskScore:28, rec:'BUY', confidence:0.85, price:178.4, pe:61.3, volatility:31.2, momentum:22.1, debtRatio:0.48, earningsSurprise:12.7, returnFwd:19.2, features:{pe:61.3,volatility:31.2,momentum:22.1,debtRatio:0.48,earningsSurprise:12.7,volume:2.8,beta:1.31,sharpe:1.22}, shap:{momentum:0.41,earningsSurprise:0.35,pe:-0.11,volatility:-0.09,debtRatio:0.07}, color:'#00e5a0' },
-  { ticker:'TMUS', name:'T-Mobile US', sector:'Telecom', riskScore:41, rec:'HOLD', confidence:0.68, price:168.2, pe:19.4, volatility:21.3, momentum:7.8, debtRatio:0.98, earningsSurprise:2.4, returnFwd:7.2, features:{pe:19.4,volatility:21.3,momentum:7.8,debtRatio:0.98,earningsSurprise:2.4,volume:1.2,beta:0.61,sharpe:0.74}, shap:{momentum:0.18,debtRatio:-0.24,earningsSurprise:0.14,pe:0.09,volatility:-0.11}, color:'#ffb627' },
-  { ticker:'WMT',  name:'Walmart Inc.', sector:'Retail', riskScore:35, rec:'BUY', confidence:0.76, price:163.8, pe:25.7, volatility:16.1, momentum:9.3, debtRatio:0.61, earningsSurprise:4.8, returnFwd:11.4, features:{pe:25.7,volatility:16.1,momentum:9.3,debtRatio:0.61,earningsSurprise:4.8,volume:1.5,beta:0.54,sharpe:1.01}, shap:{volatility:0.22,momentum:0.19,earningsSurprise:0.16,debtRatio:-0.12,pe:0.08}, color:'#00e5a0' },
-  { ticker:'CMCSA',name:'Comcast Corp.', sector:'Telecom', riskScore:67, rec:'AVOID', confidence:0.77, price:42.1, pe:9.8, volatility:22.7, momentum:-5.4, debtRatio:1.31, earningsSurprise:-2.1, returnFwd:-5.8, features:{pe:9.8,volatility:22.7,momentum:-5.4,debtRatio:1.31,earningsSurprise:-2.1,volume:0.8,beta:0.77,sharpe:0.09}, shap:{debtRatio:-0.36,momentum:-0.29,earningsSurprise:-0.18,volatility:-0.08,pe:0.07}, color:'#ff4d6a' },
-  { ticker:'COST', name:'Costco Wholesale', sector:'Retail', riskScore:19, rec:'BUY', confidence:0.93, price:728.4, pe:44.8, volatility:14.3, momentum:16.2, debtRatio:0.18, earningsSurprise:7.9, returnFwd:17.6, features:{pe:44.8,volatility:14.3,momentum:16.2,debtRatio:0.18,earningsSurprise:7.9,volume:1.7,beta:0.72,sharpe:1.68}, shap:{earningsSurprise:0.44,momentum:0.38,debtRatio:0.22,volatility:0.14,pe:-0.08}, color:'#00e5a0' },
-  { ticker:'MSFT', name:'Microsoft Corp.', sector:'Technology', riskScore:24, rec:'BUY', confidence:0.89, price:374.1, pe:32.4, volatility:20.8, momentum:11.9, debtRatio:0.28, earningsSurprise:8.3, returnFwd:13.7, features:{pe:32.4,volatility:20.8,momentum:11.9,debtRatio:0.28,earningsSurprise:8.3,volume:2.3,beta:0.92,sharpe:1.31}, shap:{earningsSurprise:0.33,momentum:0.28,pe:-0.09,debtRatio:0.11,volatility:-0.07}, color:'#00e5a0' },
-  { ticker:'DISH', name:'DISH Network', sector:'Telecom', riskScore:88, rec:'AVOID', confidence:0.94, price:5.2, pe:3.1, volatility:58.4, momentum:-24.3, debtRatio:2.14, earningsSurprise:-11.2, returnFwd:-22.4, features:{pe:3.1,volatility:58.4,momentum:-24.3,debtRatio:2.14,earningsSurprise:-11.2,volume:0.4,beta:1.04,sharpe:-1.24}, shap:{momentum:-0.52,debtRatio:-0.48,earningsSurprise:-0.31,volatility:-0.18,pe:0.04}, color:'#ff4d6a' },
-];
-
-const MODELS = [
-  { name:'Logistic Regression', accuracy:61.2, auc:0.68, f1:0.59, precision:0.61, recall:0.58, calibrated:false, notes:'Baseline — interpretable but underfits non-linearity' },
-  { name:'Random Forest', accuracy:71.8, auc:0.77, f1:0.70, precision:0.72, recall:0.69, calibrated:true, notes:'Strong performer, good feature importance' },
-  { name:'XGBoost (selected)', accuracy:78.4, auc:0.82, f1:0.77, precision:0.79, recall:0.75, calibrated:true, notes:'Best overall. Platt-calibrated. Walk-forward stable.', best:true },
-  { name:'SVM (RBF)', accuracy:68.3, auc:0.73, f1:0.67, precision:0.69, recall:0.65, calibrated:false, notes:'Good AUC but slow and less interpretable' },
-  { name:'Gradient Boosting', accuracy:75.1, auc:0.79, f1:0.74, precision:0.76, recall:0.72, calibrated:true, notes:'Close second to XGBoost' },
-];
-
-const GLOBAL_FEATURES = [
-  { name:'Price Momentum (60d)', imp:0.34 },
-  { name:'Earnings Surprise %', imp:0.28 },
-  { name:'Debt-to-Equity Ratio', imp:0.22 },
-  { name:'Sector-Adj Volatility', imp:0.18 },
-  { name:'PE Ratio (sector norm)', imp:0.14 },
-  { name:'Volume Ratio', imp:0.11 },
-  { name:'Beta', imp:0.09 },
-  { name:'Sharpe Ratio (90d)', imp:0.08 },
-];
-
-const CONFUSION = [
-  [68,9,8],
-  [7,61,11],
-  [6,10,64],
-];
+// No embedded demo companies/models — all UI data comes from bootstrap.json
+// (generated by ../ml/build_artifacts.py). Empty arrays = wait for loadBootstrap().
 
 // ═══════════════ BOOTSTRAP (generated artifacts) ═══════════════
 // The Python pipeline writes `/bootstrap.json` into `public/`.
-// If it exists, we use it to replace the mock data below.
 let BOOTSTRAP = null;
+let BOOTSTRAP_LOAD_ERROR = '';
 async function loadBootstrap() {
-  try {
-    const res = await fetch('/bootstrap.json', { cache: 'no-store' });
-    if (!res.ok) return;
-    BOOTSTRAP = await res.json();
-  } catch (e) {
-    // Keep using mock data.
+  BOOTSTRAP_LOAD_ERROR = '';
+  const origin = window.location.origin;
+  const candidates = [
+    `${origin}/api/bootstrap`,
+    `${origin}/bootstrap.json`,
+  ];
+  for (const url of candidates) {
+    try {
+      const res = await fetch(url, { cache: 'no-store', credentials: 'same-origin' });
+      if (!res.ok) {
+        BOOTSTRAP_LOAD_ERROR = `${url} → HTTP ${res.status}`;
+        continue;
+      }
+      const data = await res.json();
+      if (data && data.error && !Array.isArray(data.companies)) {
+        BOOTSTRAP_LOAD_ERROR = String(data.error);
+        continue;
+      }
+      if (!data || !Array.isArray(data.companies)) {
+        BOOTSTRAP_LOAD_ERROR = 'Invalid bootstrap: missing companies[]';
+        continue;
+      }
+      BOOTSTRAP = data;
+      const n = BOOTSTRAP.companies.length;
+      const model = BOOTSTRAP?.models?.[0]?.name ?? 'Model';
+      const el = document.getElementById('data-status');
+      if (el) el.textContent = `Live data · ${n} companies · ${model}`;
+      return;
+    } catch (e) {
+      BOOTSTRAP_LOAD_ERROR = `${url} → ${e && e.message ? e.message : e}`;
+    }
   }
+  const el = document.getElementById('data-status');
+  if (el) el.textContent = 'Data load failed — see message below';
 }
 function getCompanies() {
-  return BOOTSTRAP?.companies ?? COMPANIES;
+  return BOOTSTRAP?.companies ?? [];
 }
 function getModels() {
-  return BOOTSTRAP?.models ?? MODELS;
+  return BOOTSTRAP?.models ?? [];
 }
 function getGlobalFeatures() {
-  return BOOTSTRAP?.globalFeatures ?? GLOBAL_FEATURES;
+  return BOOTSTRAP?.globalFeatures ?? [];
 }
 function getConfusion() {
-  return BOOTSTRAP?.confusion ?? CONFUSION;
+  return BOOTSTRAP?.confusion ?? [[0,0,0],[0,0,0],[0,0,0]];
+}
+function getMeta() {
+  return BOOTSTRAP?.meta || null;
+}
+function getDataQuality() {
+  return BOOTSTRAP?.dataQuality || null;
+}
+
+function renderHeroStats() {
+  const ev = BOOTSTRAP?.evaluation || {};
+  const companies = getCompanies();
+  const n = companies.length || 1;
+  const th = abstainThreshold();
+  const abst = companies.filter((c) => Number(c.confidence) < th).length;
+  const accEl = document.getElementById('hero-acc');
+  const aucEl = document.getElementById('hero-auc');
+  const abEl = document.getElementById('hero-abstain');
+  if (accEl) accEl.textContent = typeof ev.accuracy === 'number' ? (ev.accuracy * 100).toFixed(1) + '%' : '—';
+  if (aucEl) aucEl.textContent = typeof ev.roc_auc_ovr === 'number' ? ev.roc_auc_ovr.toFixed(2) : '—';
+  if (abEl) abEl.textContent = n ? ((abst / n) * 100).toFixed(1) + '%' : '—';
+}
+
+function renderTrustPanel() {
+  const el = document.getElementById('trust-panel');
+  if (!el) return;
+  const m = getMeta();
+  const dq = getDataQuality();
+  if (!BOOTSTRAP || !m) {
+    el.style.display = 'none';
+    return;
+  }
+  el.style.display = 'block';
+  const lim = Array.isArray(m.limitations) ? m.limitations : [];
+  el.innerHTML = `
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:flex-start">
+      <div style="flex:1;min-width:220px">
+        <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">Trust &amp; reproducibility</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.75">
+          <strong style="color:var(--text)">Model ID</strong> <code style="font-size:11px">${m.model_id || '—'}</code><br/>
+          <strong style="color:var(--text)">Artifact</strong> v${m.artifact_version || '?'} · <strong>Generated</strong> ${m.generated_at ? String(m.generated_at).slice(0, 19).replace('T', ' ') + ' UTC' : '—'}<br/>
+          <strong style="color:var(--text)">Data snapshot</strong> ${m.data_snapshot_end ? String(m.data_snapshot_end).slice(0, 10) : '—'} · <strong>Split cutoff</strong> ${m.split_cutoff_date ? String(m.split_cutoff_date).slice(0, 10) : '—'}
+        </div>
+      </div>
+      <div style="flex:1;min-width:200px">
+        <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">Data quality</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.75">
+          ${dq ? `
+            Exported <strong style="color:var(--text)">${dq.n_companies_exported ?? '—'}</strong> tickers ·
+            Training sample <strong style="color:var(--text)">${dq.n_symbols_in_training_sample ?? '—'}</strong> symbols<br/>
+            Missing sector in export: <strong style="color:var(--amber)">${dq.pct_missing_sector_export ?? 0}%</strong>
+          ` : '—'}
+        </div>
+      </div>
+    </div>
+    <details style="margin-top:12px">
+      <summary style="cursor:pointer;font-size:12px;color:var(--blue)">Known limitations (read for judges)</summary>
+      <ul style="margin:10px 0 0 18px;font-size:12px;color:var(--muted);line-height:1.7">
+        ${lim.map((t) => `<li>${t}</li>`).join('')}
+      </ul>
+    </details>`;
+}
+
+function copyCompanySummary() {
+  const co = selectedCo;
+  if (!co) return;
+  const ev = BOOTSTRAP?.evaluation || {};
+  const m = getMeta();
+  const abst = co.confidence < abstainThreshold();
+  const lines = [
+    `InvestIQ summary — ${co.ticker} (${co.name})`,
+    `Sector: ${co.sector || 'Unknown'}`,
+    `Risk score: ${co.riskScore}/100 · Model rec: ${abst ? 'ABSTAIN (low confidence)' : co.rec} · Confidence: ${(co.confidence * 100).toFixed(1)}%`,
+    `Holdout accuracy (artifact): ${typeof ev.accuracy === 'number' ? (ev.accuracy * 100).toFixed(1) + '%' : 'n/a'} · Model ID: ${m?.model_id || 'n/a'}`,
+    `Disclaimer: Educational / competition use — not financial advice.`,
+  ];
+  navigator.clipboard.writeText(lines.join('\n')).then(
+    () => alert('Summary copied to clipboard'),
+    () => alert('Copy failed — select text manually')
+  );
+}
+
+function updateStressCheck() {
+  const co = selectedCo;
+  const out = document.getElementById('stress-out');
+  if (!co || !out) return;
+  const volEl = document.getElementById('stress-vol');
+  const momEl = document.getElementById('stress-mom');
+  const volS = volEl ? Number(volEl.value) / 100 : 1;
+  const momAdj = momEl ? Number(momEl.value) / 100 : 0;
+  const base = Number(co.riskScore) || 0;
+  const fv = Number(co.features?.volatility_30d) || 0;
+  const fm = Number(co.features?.momentum_60d) || 0;
+  let stressed = base * (0.65 + 0.35 * volS) + fv * 45 * Math.max(0, volS - 1) - fm * 25 * momAdj;
+  stressed = Math.max(0, Math.min(100, Math.round(stressed)));
+  let note = 'Moderate';
+  if (stressed >= 70) note = 'High stress — review AVOID drivers';
+  else if (stressed <= 35) note = 'Lower stress vs baseline';
+  out.innerHTML = `Stressed risk <strong style="color:var(--text)">${stressed}</strong>/100 · ${note} <span style="color:var(--muted2);font-size:11px">(heuristic, not a second model)</span>`;
+}
+function abstainThreshold() {
+  return window.ABSTAIN_THRESHOLD ?? 0.50;
+}
+function setRiskProfile(profile) {
+  if (profile === 'conservative') window.ABSTAIN_THRESHOLD = 0.60;
+  else if (profile === 'aggressive') window.ABSTAIN_THRESHOLD = 0.45;
+  else window.ABSTAIN_THRESHOLD = 0.50;
+  renderCompanyList();
+  renderHeroStats();
+  if (selectedCo) renderDetail(selectedCo);
+  if (document.getElementById('page-report')?.classList.contains('active')) renderReport();
 }
 
 let activeFilter = 'all';
 let selectedCo = null;
 let chatHistory = [];
+window.ABSTAIN_THRESHOLD = 0.50;
 
 // ═══════════════ NAV ═══════════════
 function showPage(p,btn) {
@@ -563,7 +684,7 @@ function showPage(p,btn) {
   document.getElementById('page-'+p).classList.add('active');
   btn?.classList.add('active');
   const renderNow = ()=>{
-    if(p==='advisor') renderCompanyList();
+    if(p==='advisor'){ renderCompanyList(); renderHeroStats(); renderTrustPanel(); }
     if(p==='models') renderModels();
     if(p==='report') renderReport();
     if(p==='compare') populateCompareSelects();
@@ -577,11 +698,11 @@ function showPage(p,btn) {
 
 // ═══════════════ ADVISOR ═══════════════
 function recColor(r,c){ 
-  if(c<0.50) return 'var(--blue)';
+  if(c<abstainThreshold()) return 'var(--blue)';
   return r==='BUY'?'var(--green)':r==='AVOID'?'var(--red)':'var(--amber)' 
 }
 function recBadge(r,c){
-  if(c<0.50) return '<span class="badge badge-abstain">⊘ ABSTAIN</span>';
+  if(c<abstainThreshold()) return '<span class="badge badge-abstain">⊘ ABSTAIN</span>';
   const cls=r==='BUY'?'badge-buy':r==='AVOID'?'badge-avoid':'badge-hold';
   const icon=r==='BUY'?'▲':r==='AVOID'?'▼':'◉';
   return `<span class="badge ${cls}">${icon} ${r}</span>`;
@@ -606,13 +727,30 @@ function setFilter(f,btn){
 
 function renderCompanyList(){
   const list=document.getElementById('company-list');
-  list.innerHTML=getCompanies().map(co=>`
+  const companies = getCompanies();
+  if (!companies.length) {
+    const hint = BOOTSTRAP_LOAD_ERROR
+      ? `<div style="margin-top:8px;font-size:11px;color:var(--muted2);font-family:'JetBrains Mono',monospace;word-break:break-all">${BOOTSTRAP_LOAD_ERROR}</div>`
+      : '';
+    list.innerHTML = `
+      <div class="small muted" style="padding:12px 6px">
+        <strong>No companies loaded.</strong> From the <code>investiq</code> folder run:
+        <code style="display:block;margin-top:8px">npm run build:data</code>
+        Then restart the server and open this app at
+        <code>http://localhost:3000</code> (or your port). Check
+        <code>/api/bootstrap</code> or <code>/bootstrap.json</code> in the browser.
+        ${hint}
+      </div>
+    `;
+    return;
+  }
+  list.innerHTML=companies.map(co=>`
     <div class="company-row" data-ticker="${co.ticker}" data-name="${co.name}" data-rec="${co.rec}"
          onclick="selectCompany('${co.ticker}')">
       <div class="co-ticker" style="color:${co.color};border:1px solid ${co.color}22">${co.ticker}</div>
       <div class="co-info">
         <div class="co-name">${co.name}</div>
-        <div class="co-sector">${co.sector}</div>
+        <div class="co-sector">${co.sector || 'Unknown'}</div>
         <div class="prog-wrap" style="margin-top:6px">
           <div class="prog-bar" style="width:${co.riskScore}%;background:${co.riskScore<40?'var(--green)':co.riskScore<65?'var(--amber)':'var(--red)'}"></div>
         </div>
@@ -634,7 +772,7 @@ function selectCompany(ticker){
 }
 
 function renderDetail(co){
-  const isAbstain=co.confidence<0.50;
+  const isAbstain=co.confidence<abstainThreshold();
   const panel=document.getElementById('detail-panel');
 
   const shapHtml = Object.entries(co.shap).map(([k,v])=>{
@@ -699,6 +837,10 @@ function renderDetail(co){
     return m[key]||key;
   };
 
+  const shapGlobalNote = (BOOTSTRAP?.meta?.explanation_mode || '').includes('global')
+    ? `<div class="caution" style="margin-bottom:12px">Using <strong>global feature-importance fallback</strong> (identical driver ranking per ticker). Rebuild with SHAP enabled for per-company explanations.</div>`
+    : '';
+
   const entries=Object.entries(co.features||{});
   // Sort by magnitude so the most "active" signals show first.
   entries.sort((a,b)=>Math.abs(Number(b[1]))-Math.abs(Number(a[1])));
@@ -717,12 +859,13 @@ function renderDetail(co){
     <div style="animation:fadeIn 0.3s ease">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px">
         <div>
-          <div style="display:flex;align-items:center;gap:12px">
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
             <div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;letter-spacing:-1px;color:${co.color}">${co.ticker}</div>
             <div>${recBadge(co.rec,co.confidence)}</div>
+            <button type="button" class="tab" style="cursor:pointer;padding:6px 12px" onclick="copyCompanySummary()">Copy summary</button>
           </div>
-          <div style="font-size:16px;color:var(--muted);margin-top:4px">${co.name} · ${co.sector}</div>
-          <div style="font-size:13px;color:var(--muted);margin-top:6px">Current Price: <strong style="color:var(--text)">$${co.price}</strong></div>
+          <div style="font-size:16px;color:var(--muted);margin-top:4px">${co.name} · ${co.sector || 'Unknown'}</div>
+          <div style="font-size:13px;color:var(--muted);margin-top:6px">Current Price: <strong style="color:var(--text)">$${co.price != null ? co.price : '—'}</strong></div>
         </div>
         <div style="text-align:center">
           ${renderGaugeSvg(co.riskScore)}
@@ -730,12 +873,21 @@ function renderDetail(co){
         </div>
       </div>
 
-      ${isAbstain?`<div class="abstain-banner"><span class="abstain-icon">⊘</span><div><strong style="color:var(--blue)">Insufficient Confidence</strong> — Model confidence ${Math.round(co.confidence*100)}% is below the 50% threshold. No recommendation issued. Consider gathering more signals before acting.</div></div>`:''}
+      ${isAbstain?`<div class="abstain-banner"><span class="abstain-icon">⊘</span><div><strong style="color:var(--blue)">Insufficient Confidence</strong> — Model confidence ${Math.round(co.confidence*100)}% is below the ${Math.round(abstainThreshold()*100)}% threshold. No recommendation issued. Consider gathering more signals before acting.</div></div>`:''}
 
       <div style="margin-bottom:8px">
         <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Model Confidence</div>
         <div class="conf-bar-wrap" style="height:8px"><div class="conf-bar" style="width:${Math.round(co.confidence*100)}%"></div></div>
         <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:3px"><span>0%</span><span style="color:var(--text)">${Math.round(co.confidence*100)}% confident</span><span>100%</span></div>
+      </div>
+
+      <div style="margin-top:16px;padding:14px;background:var(--bg3);border-radius:12px;border:1px solid var(--border)">
+        <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:10px;text-transform:uppercase;letter-spacing:1px">Stress check (what-if)</div>
+        <div style="display:grid;gap:10px;font-size:12px;color:var(--muted)">
+          <label>Volatility stress: <span id="stress-vol-lbl">100</span>% <input type="range" id="stress-vol" min="70" max="130" value="100" style="width:100%;accent-color:var(--blue)" oninput="document.getElementById('stress-vol-lbl').textContent=this.value;updateStressCheck();"/></label>
+          <label>Momentum shock: <span id="stress-mom-lbl">0</span>% <input type="range" id="stress-mom" min="-15" max="15" value="0" style="width:100%;accent-color:var(--amber)" oninput="document.getElementById('stress-mom-lbl').textContent=this.value;updateStressCheck();"/></label>
+        </div>
+        <div id="stress-out" style="margin-top:10px;font-size:13px;color:var(--muted)"></div>
       </div>
 
       <hr class="divider"/>
@@ -752,6 +904,7 @@ function renderDetail(co){
           SHAP (SHapley Additive exPlanations) shows how each feature pushes the model toward or away from a <strong style="color:var(--green)">BUY</strong> recommendation.
           <span style="color:var(--green)">Green = positive contribution</span>, <span style="color:var(--red)">Red = negative contribution</span>.
         </div>
+        ${shapGlobalNote}
         ${shapHtml}
         <div class="caution">Top driver: ${getTopDriver(co)} This is the most influential factor in the ${co.rec} recommendation.</div>
       </div>
@@ -765,6 +918,7 @@ function renderDetail(co){
         </div>
       </div>
     </div>`;
+  setTimeout(updateStressCheck, 0);
 }
 
 function getTopDriver(co){
@@ -827,8 +981,8 @@ async function sendChat(){
   msgs.innerHTML+=`<div class="msg msg-ai" id="${typingId}"><div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>`;
   msgs.scrollTop=msgs.scrollHeight;
   chatHistory.push({role:'user',content:msg});
-  const systemPrompt=`You are a concise, expert AI investment advisor. The user is analyzing ${co.name} (${co.ticker}), sector: ${co.sector}. 
-Key data: Risk Score=${co.riskScore}/100, Recommendation=${co.confidence>=0.50?co.rec:'ABSTAIN (low confidence)'}, Confidence=${Math.round(co.confidence*100)}%.
+  const systemPrompt=`You are a concise, expert AI investment advisor. The user is analyzing ${co.name} (${co.ticker}), sector: ${co.sector || 'Unknown'}. 
+Key data: Risk Score=${co.riskScore}/100, Recommendation=${co.confidence>=abstainThreshold()?co.rec:'ABSTAIN (low confidence)'}, Confidence=${Math.round(co.confidence*100)}%.
 Features=${JSON.stringify(co.features)}.
 Top SHAP/driver signals: ${JSON.stringify(co.shap)}.
 Give sharp, 2-4 sentence answers. Use ** for emphasis. Add a ⚠ disclaimer if advice could be taken as financial guidance. Never recommend illegal actions.`;
@@ -946,11 +1100,20 @@ function renderCompare(){
 
 // ═══════════════ MODELS PAGE ═══════════════
 function renderModels(){
+  const models = getModels();
+  if (!models.length) {
+    const tbl=document.getElementById('model-table');
+    tbl.innerHTML = `<tbody><tr><td class="small muted">No model metrics loaded from bootstrap data.</td></tr></tbody>`;
+    document.getElementById('global-fi').innerHTML = `<div class="small muted">No feature importance data loaded.</div>`;
+    const cmInsight = document.getElementById('cm-insight');
+    if (cmInsight) cmInsight.textContent = '—';
+    return;
+  }
   // Model Table
   const tbl=document.getElementById('model-table');
   tbl.innerHTML=`<thead><tr>
     <th>Model</th><th>Accuracy</th><th>ROC-AUC</th><th>F1</th><th>Precision</th><th>Recall</th><th>Calibrated</th>
-  </tr></thead><tbody>${getModels().map(m=>`<tr ${m.best?'class="best-row"':''}>
+  </tr></thead><tbody>${models.map(m=>`<tr ${m.best?'class="best-row"':''}>
     <td><strong>${m.name}</strong>${m.best?'<span class="model-winner">★ SELECTED</span>':''}<br><span style="font-size:11px;color:var(--muted)">${m.notes}</span></td>
     <td style="color:${m.accuracy>74?'var(--green)':'var(--muted)'};font-family:'Syne',sans-serif;font-weight:700">${m.accuracy.toFixed(1)}%</td>
     <td style="font-family:'JetBrains Mono',monospace">${typeof m.auc==='number'?m.auc.toFixed(2):'-'}</td>
@@ -976,35 +1139,83 @@ function renderModels(){
     cm.appendChild(d);
   }
 
-  // Model detail metrics
-  document.getElementById('model-metrics-detail').innerHTML=`
-    ${[['Macro F1','0.77'],['Weighted Precision','0.79'],['Cohen\'s Kappa','0.68'],['Log Loss','0.412']].map(([l,v])=>`
+  const ev = BOOTSTRAP?.evaluation || {};
+  const kappaStr = typeof ev.cohen_kappa === 'number' ? ev.cohen_kappa.toFixed(3) : '—';
+  const wcostStr = typeof ev.weighted_confusion_cost === 'number' ? ev.weighted_confusion_cost.toFixed(2) : '—';
+  const trR = ev.train_rows != null ? String(ev.train_rows) : '—';
+  const teR = ev.test_rows != null ? String(ev.test_rows) : '—';
+  const trAcc = typeof ev.train_accuracy === 'number' ? (ev.train_accuracy * 100).toFixed(1) + '%' : '—';
+  const llStr = typeof ev.log_loss === 'number' ? ev.log_loss.toFixed(3) : '—';
+  document.getElementById('model-metrics-detail').innerHTML = `
+    ${[
+      ['Macro F1 (holdout)', typeof ev.f1_macro === 'number' ? ev.f1_macro.toFixed(3) : '—'],
+      ["Cohen's κ", kappaStr],
+      ['Log loss (multiclass)', llStr],
+      ['Weighted confusion cost', wcostStr],
+      ['Train / test rows', `${trR} / ${teR}`],
+      ['Train accuracy (in-sample)', trAcc],
+    ]
+      .map(
+        ([l, v]) => `
     <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px">
       <span style="color:var(--muted)">${l}</span>
       <span style="font-family:'JetBrains Mono',monospace;color:var(--text)">${v}</span>
-    </div>`).join('')}`;
+    </div>`
+      )
+      .join('')}`;
 
-  // Walk-Forward Chart
-  if(document.getElementById('walkforward-chart')._chart){document.getElementById('walkforward-chart')._chart.destroy();}
-  const wf=new Chart(document.getElementById('walkforward-chart'),{
-    type:'line',
-    data:{
-      labels:['Q1\'23','Q2\'23','Q3\'23','Q4\'23','Q1\'24','Q2\'24','Q3\'24','Q4\'24'],
-      datasets:[
-        {label:'XGBoost',data:[76.2,77.8,75.1,78.4,79.1,77.6,80.2,78.8],borderColor:'#00e5a0',tension:0.4,borderWidth:2,pointRadius:4,pointBackgroundColor:'#00e5a0',fill:false},
-        {label:'Random Forest',data:[70.1,71.4,69.8,72.1,70.9,71.8,73.2,71.9],borderColor:'#5b8dee',tension:0.4,borderWidth:2,pointRadius:4,pointBackgroundColor:'#5b8dee',fill:false},
-        {label:'Logistic Reg.',data:[60.3,61.8,59.4,62.1,61.7,62.4,63.1,61.9],borderColor:'#7070a0',tension:0.4,borderWidth:1.5,pointRadius:3,pointBackgroundColor:'#7070a0',fill:false,borderDash:[4,4]},
-      ]
+  const totalCells = CONF.reduce((s, r) => s + r.reduce((a, b) => a + b, 0), 0);
+  const diag = CONF[0][0] + CONF[1][1] + CONF[2][2];
+  const miss = totalCells - diag;
+  const insightEl = document.getElementById('cm-insight');
+  if (insightEl) {
+    insightEl.innerHTML =
+      totalCells > 0
+        ? `Holdout <strong style="color:var(--text)">${totalCells}</strong> predictions · misclassified <strong style="color:var(--amber)">${miss}</strong> (${((miss / totalCells) * 100).toFixed(1)}%). Costly errors: true AVOID→pred BUY <strong style="color:var(--red)">${CONF[2][0]}</strong>, true BUY→pred AVOID <strong style="color:var(--amber)">${CONF[0][2]}</strong>.`
+        : '—';
+  }
+
+  if (document.getElementById('walkforward-chart')._chart) {
+    document.getElementById('walkforward-chart')._chart.destroy();
+  }
+  const wfData = BOOTSTRAP?.walkforward || {};
+  const wfLabels = wfData.labels || ['Train', 'Holdout'];
+  const wfVals = wfData.xgboost || [0, 0];
+  const wf = new Chart(document.getElementById('walkforward-chart'), {
+    type: 'bar',
+    data: {
+      labels: wfLabels,
+      datasets: [
+        {
+          label: 'Accuracy %',
+          data: wfVals,
+          backgroundColor: ['rgba(0,229,160,0.45)', 'rgba(91,141,238,0.45)'],
+          borderColor: ['#00e5a0', '#5b8dee'],
+          borderWidth: 1,
+        },
+      ],
     },
-    options:{
-      responsive:true,plugins:{legend:{labels:{color:'#7070a0',font:{size:11,family:'JetBrains Mono'}}}},
-      scales:{
-        x:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#7070a0',font:{size:11,family:'JetBrains Mono'}}},
-        y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#7070a0',font:{size:11,family:'JetBrains Mono'}},min:55,max:85,title:{display:true,text:'Accuracy %',color:'#7070a0',font:{size:11}}}
-      }
-    }
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          ticks: { color: '#7070a0', font: { size: 11, family: 'JetBrains Mono' } },
+        },
+        y: {
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          ticks: { color: '#7070a0', font: { size: 11, family: 'JetBrains Mono' } },
+          min: 0,
+          max: 100,
+          title: { display: true, text: 'Accuracy %', color: '#7070a0', font: { size: 11 } },
+        },
+      },
+    },
   });
-  document.getElementById('walkforward-chart')._chart=wf;
+  document.getElementById('walkforward-chart')._chart = wf;
 
   // Global Feature Importance
   const fi=document.getElementById('global-fi');
@@ -1018,16 +1229,147 @@ function renderModels(){
     </div>`).join('');
 }
 
+function renderCalibrationChart() {
+  const canvas = document.getElementById('calib-chart');
+  if (!canvas) return;
+  if (canvas._chart) canvas._chart.destroy();
+  const cal = BOOTSTRAP?.calibration;
+  if (!cal || !Array.isArray(cal.bin_centers) || !Array.isArray(cal.empirical_accuracy)) {
+    canvas._chart = new Chart(canvas, {
+      type: 'line',
+      data: { labels: ['—'], datasets: [] },
+      options: {
+        plugins: {
+          title: {
+            display: true,
+            text: 'Run npm run build:data (latest pipeline) for reliability curve',
+            color: '#7070a0',
+            font: { size: 12, family: 'JetBrains Mono' },
+          },
+        },
+      },
+    });
+    return;
+  }
+  const labels = cal.bin_centers.map((c, i) => (i + 1).toString());
+  const ideal = cal.bin_centers.map((c) => c);
+  const emp = cal.empirical_accuracy.map((v) => (v == null ? null : v));
+  canvas._chart = new Chart(canvas, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Ideal (accuracy = mean confidence)',
+          data: ideal,
+          borderColor: 'rgba(255,255,255,0.28)',
+          borderDash: [5, 5],
+          pointRadius: 0,
+          tension: 0.15,
+        },
+        {
+          label: 'Empirical accuracy (holdout)',
+          data: emp,
+          borderColor: '#00e5a0',
+          borderWidth: 2,
+          pointRadius: 3,
+          tension: 0.15,
+          spanGaps: true,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { labels: { color: '#7070a0', font: { size: 11, family: 'JetBrains Mono' } } },
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          ticks: { color: '#7070a0', font: { size: 11, family: 'JetBrains Mono' } },
+          title: { display: true, text: 'Confidence bin (1 = lowest)', color: '#7070a0', font: { size: 11 } },
+        },
+        y: {
+          min: 0,
+          max: 1,
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          ticks: { color: '#7070a0', font: { size: 11, family: 'JetBrains Mono' } },
+          title: { display: true, text: 'Accuracy', color: '#7070a0', font: { size: 11 } },
+        },
+      },
+    },
+  });
+}
+
 // ═══════════════ REPORT PAGE ═══════════════
 function renderReport(){
+  const companies = getCompanies();
+  const n = companies.length || 1;
+  const m = getMeta();
+  const dq = getDataQuality();
+  const rt = document.getElementById('report-trust');
+  const rdq = document.getElementById('report-dq');
+  if (rt) {
+    rt.innerHTML = m
+      ? `<div style="font-size:12px;color:var(--muted);line-height:1.8">
+          <div><strong style="color:var(--text)">Model ID</strong> <code style="font-size:11px">${m.model_id || '—'}</code></div>
+          <div><strong style="color:var(--text)">Artifact</strong> v${m.artifact_version || '?'} · generated ${m.generated_at ? String(m.generated_at).slice(0,19).replace('T',' ') : '—'} UTC</div>
+          <div><strong style="color:var(--text)">Train/test</strong> ${m.train_test_split || '—'}</div>
+          <div><strong style="color:var(--text)">Snapshot</strong> ${m.data_snapshot_end ? String(m.data_snapshot_end).slice(0,10) : '—'} · <strong>Split cutoff</strong> ${m.split_cutoff_date ? String(m.split_cutoff_date).slice(0,10) : '—'}</div>
+          <details style="margin-top:10px"><summary style="cursor:pointer;color:var(--blue)">Limitations</summary>
+            <ul style="margin:8px 0 0 18px;font-size:11px;line-height:1.65">${(m.limitations||[]).map((t)=>`<li>${t}</li>`).join('')}</ul>
+          </details>
+        </div>`
+      : `<div class="small muted">Load bootstrap artifact for audit fields.</div>`;
+  }
+  if (rdq) {
+    rdq.innerHTML = dq
+      ? `<div style="font-size:12px;color:var(--muted);line-height:1.85">
+          <div><strong style="color:var(--text)">Exported tickers</strong> ${dq.n_companies_exported ?? '—'}</div>
+          <div><strong style="color:var(--text)">Training universe</strong> ${dq.n_symbols_in_training_sample ?? '—'} symbols</div>
+          <div><strong style="color:var(--text)">Missing sector</strong> ${dq.pct_missing_sector_export ?? 0}% of export</div>
+          <div><strong style="color:var(--text)">Latest price date</strong> ${dq.latest_price_date ? String(dq.latest_price_date).slice(0,10) : '—'}</div>
+        </div>`
+      : `<div class="small muted">—</div>`;
+  }
+
+  if (!companies.length) {
+    document.getElementById('usefulness-metrics').innerHTML = `<div class="small muted">No evaluation data loaded.</div>`;
+    document.getElementById('error-analysis').innerHTML = `<div class="small muted">No prediction distribution available.</div>`;
+    renderCalibrationChart();
+    return;
+  }
+  const threshold = abstainThreshold();
+  const abstain = companies.filter(c=>Number(c.confidence)<threshold).length;
+  const buy = companies.filter(c=>c.rec==='BUY').length;
+  const hold = companies.filter(c=>c.rec==='HOLD').length;
+  const avoid = companies.filter(c=>c.rec==='AVOID').length;
+  const avgRisk = companies.reduce((s,c)=>s+(Number(c.riskScore)||0),0)/n;
+  const avgConf = companies.reduce((s,c)=>s+(Number(c.confidence)||0),0)/n;
+  const evalObj = BOOTSTRAP?.evaluation || {};
+  const accPct = typeof evalObj.accuracy==='number' ? (evalObj.accuracy*100).toFixed(1)+'%' : '-';
+  const trAcc = typeof evalObj.train_accuracy==='number' ? (evalObj.train_accuracy*100).toFixed(1)+'%' : '-';
+  const f1 = typeof evalObj.f1_macro==='number' ? evalObj.f1_macro.toFixed(2) : '-';
+  const auc = typeof evalObj.roc_auc_ovr==='number' ? evalObj.roc_auc_ovr.toFixed(2) : '-';
+  const kappa = typeof evalObj.cohen_kappa==='number' ? evalObj.cohen_kappa.toFixed(2) : '-';
+  const wcost = typeof evalObj.weighted_confusion_cost==='number' ? evalObj.weighted_confusion_cost.toFixed(2) : '-';
+  const tr = evalObj.train_rows != null ? String(evalObj.train_rows) : '-';
+  const te = evalObj.test_rows != null ? String(evalObj.test_rows) : '-';
+  const ll = typeof evalObj.log_loss==='number' ? evalObj.log_loss.toFixed(3) : '-';
+
   // Decision Usefulness
   document.getElementById('usefulness-metrics').innerHTML=`
     ${[
-      ['Simulated Portfolio Return (BUY recs)', '+16.4%', 'var(--green)', 'vs. S&P 500 benchmark +9.2%'],
-      ['False Avoid Rate (Good cos. flagged)', '12.1%', 'var(--amber)', 'Asymmetric cost: weighted 2× in training'],
-      ['False Buy Rate (Bad cos. recommended)', '8.3%', 'var(--red)', 'Higher risk to investor — penalized more'],
-      ['Abstain Rate', '14.3%', 'var(--blue)', 'Uncertain signals → no recommendation issued'],
-      ['Label Stability (30d window)', '91.2%', 'var(--green)', 'Recommendations consistent over rolling window'],
+      ['Coverage (Companies Scored)', String(n), 'var(--green)', 'Latest snapshot scored from exported artifact'],
+      ['Model Accuracy (Holdout)', accPct, 'var(--green)', 'Time-based test split'],
+      ['Train accuracy (in-sample)', trAcc, 'var(--muted2)', 'Sanity check vs overfit'],
+      ['Macro F1', String(f1), 'var(--amber)', 'Balances class-wise precision/recall'],
+      ['Cohen κ', String(kappa), 'var(--amber)', 'Agreement beyond chance'],
+      ['ROC-AUC (OVR)', String(auc), 'var(--blue)', 'Multi-class one-vs-rest AUC'],
+      ['Log loss (holdout)', String(ll), 'var(--muted)', 'Multiclass cross-entropy'],
+      ['Weighted error cost', String(wcost), 'var(--red)', 'Higher when AVOID→BUY mistakes'],
+      ['Train / test rows', `${tr} / ${te}`, 'var(--muted)', 'Rows used after cleaning'],
+      ['Abstain Rate', ((abstain/n)*100).toFixed(1)+'%', 'var(--blue)', `Confidence below ${Math.round(threshold*100)}% threshold`],
     ].map(([l,v,c,note])=>`
     <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)">
       <div>
@@ -1040,51 +1382,29 @@ function renderReport(){
   // Error Analysis
   document.getElementById('error-analysis').innerHTML=`
     <div style="margin-bottom:16px;font-size:12px;color:var(--muted);line-height:1.8">
-      Cost-sensitive training was applied: misclassifying an <strong style="color:var(--red)">AVOID</strong> as BUY 
-      costs <strong style="color:var(--text)">3×</strong> more than the reverse, reflecting real investor loss asymmetry.
+      Deployment view of current prediction mix. This helps stakeholders assess risk posture and recommendation balance.
     </div>
     ${[
-      ['High-Debt Telecom Cos.','Most common AVOID misses — VZ, T, CMCSA pattern','var(--red)'],
-      ['High-Volatility Tech Cos.','NVDA-type stocks occasionally misclassified HOLD→BUY','var(--amber)'],
-      ['Sector-Boundary Cases','Cross-sector companies (e.g. Amazon: Retail+Tech) ambiguous','var(--blue)'],
-      ['Earnings Surprise Lag','Model reacts to surprise with 1-quarter lag in some cases','var(--muted)'],
+      ['BUY Recommendations', `${buy} companies currently flagged BUY`, 'var(--green)'],
+      ['HOLD Recommendations', `${hold} companies currently flagged HOLD`, 'var(--amber)'],
+      ['AVOID Recommendations', `${avoid} companies currently flagged AVOID`, 'var(--red)'],
+      ['Average Risk / Confidence', `${avgRisk.toFixed(1)} risk score · ${(avgConf*100).toFixed(1)}% confidence`, 'var(--blue)'],
     ].map(([t,d,c])=>`
     <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)">
       <div style="width:8px;height:8px;border-radius:50%;background:${c};flex-shrink:0;margin-top:4px"></div>
       <div><div style="font-size:13px;font-weight:500">${t}</div><div style="font-size:12px;color:var(--muted);margin-top:2px">${d}</div></div>
     </div>`).join('')}`;
 
-  // Calibration Chart
-  if(document.getElementById('calib-chart')._chart){document.getElementById('calib-chart')._chart.destroy();}
-  const cc=new Chart(document.getElementById('calib-chart'),{
-    type:'line',
-    data:{
-      labels:['0.1','0.2','0.3','0.4','0.5','0.6','0.7','0.8','0.9','1.0'],
-      datasets:[
-        {label:'Perfect Calibration',data:[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0],borderColor:'rgba(255,255,255,0.2)',borderDash:[4,4],borderWidth:1.5,pointRadius:0,fill:false},
-        {label:'XGBoost (uncalibrated)',data:[0.08,0.17,0.26,0.38,0.52,0.67,0.81,0.93,0.98,1.0],borderColor:'var(--red)',tension:0.3,borderWidth:2,pointRadius:3,fill:false},
-        {label:'XGBoost (Platt scaled)',data:[0.10,0.20,0.30,0.41,0.51,0.61,0.71,0.81,0.90,1.0],borderColor:'var(--green)',tension:0.3,borderWidth:2,pointRadius:3,fill:false},
-      ]
-    },
-    options:{
-      responsive:true,
-      plugins:{legend:{labels:{color:'#7070a0',font:{size:11,family:'JetBrains Mono'}}}},
-      scales:{
-        x:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#7070a0',font:{size:11,family:'JetBrains Mono'}},title:{display:true,text:'Predicted Probability',color:'#7070a0',font:{size:11}}},
-        y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#7070a0',font:{size:11,family:'JetBrains Mono'}},title:{display:true,text:'Empirical Frequency',color:'#7070a0',font:{size:11}},min:0,max:1}
-      }
-    }
-  });
-  document.getElementById('calib-chart')._chart=cc;
+  renderCalibrationChart();
 
   // Report Findings
   document.getElementById('report-findings').innerHTML=`
     <div class="grid-2">
       ${[
-        ['✓ Decision Usefulness Exceeds Accuracy','Simulated BUY portfolio returns +16.4% vs +9.2% S&P benchmark — demonstrating real decision value beyond classification accuracy alone.','var(--green)'],
-        ['✓ Temporal Stability Confirmed','Walk-forward accuracy ranges 75–80% across 8 quarters. No significant degradation observed — model does not overfit to a specific market regime.','var(--green)'],
-        ['⚡ Risk Asymmetry Applied','False-Avoid rate (12%) and False-Buy rate (8%) reflect deliberate cost-sensitive weighting. Investor safety prioritized over raw accuracy maximization.','var(--amber)'],
-        ['⊘ Abstain Guardrail Effective','14.3% of predictions below 50% confidence threshold are withheld — preventing overconfident recommendations in ambiguous market conditions.','var(--blue)'],
+        ['✓ Data-Driven Snapshot Active',`${n} companies in the exported artifact snapshot.`, 'var(--green)'],
+        ['✓ Holdout Performance Reported',`Accuracy ${accPct}, Macro F1 ${f1}, AUC ${auc}.`, 'var(--green)'],
+        ['⚡ Guardrail Profile Applied',`Abstain threshold is ${Math.round(threshold*100)}%, yielding ${(abstain/n*100).toFixed(1)}% abstain rate.`, 'var(--amber)'],
+        ['⊘ Decision Balance Visible',`Current mix: BUY ${buy}, HOLD ${hold}, AVOID ${avoid}.`, 'var(--blue)'],
       ].map(([t,d,c])=>`
       <div style="padding:18px;background:var(--bg3);border-radius:12px;border-left:3px solid ${c}">
         <div style="font-size:13px;font-weight:500;color:${c};margin-bottom:8px">${t}</div>
@@ -1095,7 +1415,11 @@ function renderReport(){
 }
 
 // ═══════════════ INIT ═══════════════
-loadBootstrap().then(()=>renderCompanyList());
+loadBootstrap().then(() => {
+  renderCompanyList();
+  renderHeroStats();
+  renderTrustPanel();
+});
 </script>
 </body>
 </html>

@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# InvestIQ - AI Investment Advisor
 
-## Getting Started
+This app serves a data-driven investment advisor UI and reads generated artifacts from:
 
-First, run the development server:
+- `public/bootstrap.json`
+
+The artifact is generated offline from local Yahoo-style Parquet datasets using:
+
+- `../ml/build_artifacts.py`
+
+## Project Layout
+
+- `app/page.tsx` - hosts the advisor UI page
+- `public/investment_advisor.html` - main interactive UI
+- `app/api/chat/route.ts` - chat endpoint (fallback works without API key)
+- `app/api/bootstrap/route.ts` - serves `bootstrap.json` reliably
+- `../ml/build_artifacts.py` - offline model/data pipeline and artifact generator
+- `../ml/requirements.txt` - Python dependencies for the ML pipeline
+
+## What’s in `bootstrap.json` (for judges)
+
+- **`companies`** — latest snapshot tickers, risk, rec, confidence, features, explainability
+- **`evaluation`** — holdout accuracy, train accuracy, macro F1, Cohen’s κ, ROC-AUC (OVR), **weighted confusion cost**, train/test row counts
+- **`meta`** — artifact version, UTC timestamp, **model ID** hash, data snapshot date, split cutoff, labeling summary, **limitations** list
+- **`dataQuality`** — export count, training universe size, **% missing sector**, latest price date
+- **`walkforward`** — train vs holdout accuracy bars (time-based split)
+- **`calibration`** — binned mean confidence vs empirical accuracy on the holdout set (reliability diagram)
+- **Models row** — macro **precision** / **recall** and **log loss** from sklearn on holdout
+
+## Local Run
+
+From this folder (`investiq`):
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open: [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Rebuild Artifacts From Dataset
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+From `investiq`:
 
-## Learn More
+```bash
+npm run build:data
+```
 
-To learn more about Next.js, take a look at the following resources:
+This runs:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+python ../ml/build_artifacts.py --no_dividends --no_earnings --no_shap --max_symbols 500 --topk_latest_by_volume 150 --out investiq/public
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Then restart dev server (`npm run dev`) or refresh browser.
 
-## Deploy on Vercel
+## One Command Fresh Run
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run dev:fresh
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deploy to Vercel
+
+1. Push this repo to GitHub.
+2. Import project in Vercel.
+3. Framework preset: **Next.js**
+4. Root Directory: **`.`** (if repo root is this `investiq` folder)
+5. Deploy.
+
+## Notes
+
+- Keep large raw datasets (`*.parquet`, full CSV) out of GitHub/Vercel.
+- Commit only generated small artifacts (for example `public/bootstrap.json`) and source code.
+
+## Troubleshooting
+
+### UI says JSON parse error / `NaN` in `bootstrap.json`
+
+Python can write `NaN` into JSON, which **browsers cannot parse**. Regenerate after updating `ml/build_artifacts.py`, or repair an old file:
+
+```bash
+python ../ml/repair_bootstrap_json.py public/bootstrap.json
+```
+
+### “Same” SHAP bars for every ticker (`--no_shap`)
+
+With `--no_shap`, the pipeline uses **global feature importances** (same for all rows). Remove `--no_shap` for per-ticker SHAP values (slower).
