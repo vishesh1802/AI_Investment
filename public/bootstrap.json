@@ -1,0 +1,615 @@
+{
+  "companies": [
+    {
+      "ticker": "MOS",
+      "name": "MOS",
+      "sector": "Basic Materials",
+      "riskScore": 95,
+      "rec": "AVOID",
+      "confidence": 0.9999487400054932,
+      "price": 29.31,
+      "features": {
+        "momentum_60d": 0.1790024135156878,
+        "volatility_30d": 0.03597733236230148,
+        "volume_ratio_20d": 1.9251630593001097,
+        "drawdown_60d": -0.06536989795918369
+      },
+      "shap": {
+        "volatility_30d": 0.8706607818603516,
+        "drawdown_60d": 0.07302361726760864,
+        "momentum_60d": 0.03936042636632919,
+        "volume_ratio_20d": 0.016955256462097168
+      },
+      "color": "#ff4d6a"
+    },
+    {
+      "ticker": "MIR",
+      "name": "MIR",
+      "sector": "Industrials",
+      "riskScore": 93,
+      "rec": "AVOID",
+      "confidence": 0.9999656677246094,
+      "price": 18.69,
+      "features": {
+        "momentum_60d": -0.2314967105263157,
+        "volatility_30d": 0.03548859266821506,
+        "volume_ratio_20d": 2.2585835794562334,
+        "drawdown_60d": -0.3077777777777777
+      },
+      "shap": {
+        "volatility_30d": 0.8706607818603516,
+        "drawdown_60d": 0.07302361726760864,
+        "momentum_60d": 0.03936042636632919,
+        "volume_ratio_20d": 0.016955256462097168
+      },
+      "color": "#ff4d6a"
+    },
+    {
+      "ticker": "MO",
+      "name": "MO",
+      "sector": "Consumer Defensive",
+      "riskScore": 0,
+      "rec": "HOLD",
+      "confidence": 0.5041856169700623,
+      "price": 67.89,
+      "features": {
+        "momentum_60d": 0.14892536808258572,
+        "volatility_30d": 0.013528201243225815,
+        "volume_ratio_20d": 0.8744908991099274,
+        "drawdown_60d": -0.025968436154949814
+      },
+      "shap": {
+        "volatility_30d": 0.8706607818603516,
+        "drawdown_60d": 0.07302361726760864,
+        "momentum_60d": 0.03936042636632919,
+        "volume_ratio_20d": 0.016955256462097168
+      },
+      "color": "#ffb627"
+    },
+    {
+      "ticker": "MFG",
+      "name": "MFG",
+      "sector": "Financial Services",
+      "riskScore": 43,
+      "rec": "AVOID",
+      "confidence": 0.6106125116348267,
+      "price": 7.63,
+      "features": {
+        "momentum_60d": 0.005270092226614009,
+        "volatility_30d": 0.027096354881709334,
+        "volume_ratio_20d": 0.8109484018248527,
+        "drawdown_60d": -0.24380574826560952
+      },
+      "shap": {
+        "volatility_30d": 0.8706607818603516,
+        "drawdown_60d": 0.07302361726760864,
+        "momentum_60d": 0.03936042636632919,
+        "volume_ratio_20d": 0.016955256462097168
+      },
+      "color": "#ff4d6a"
+    },
+    {
+      "ticker": "MMM",
+      "name": "MMM",
+      "sector": "Industrials",
+      "riskScore": 5,
+      "rec": "HOLD",
+      "confidence": 0.5335685610771179,
+      "price": 150.96,
+      "features": {
+        "momentum_60d": -0.08895594447797217,
+        "volatility_30d": 0.0206422916881442,
+        "volume_ratio_20d": 0.9806249946496466,
+        "drawdown_60d": -0.13544470534333664
+      },
+      "shap": {
+        "volatility_30d": 0.8706607818603516,
+        "drawdown_60d": 0.07302361726760864,
+        "momentum_60d": 0.03936042636632919,
+        "volume_ratio_20d": 0.016955256462097168
+      },
+      "color": "#ffb627"
+    },
+    {
+      "ticker": "MNST",
+      "name": "MNST",
+      "sector": "Consumer Defensive",
+      "riskScore": 0,
+      "rec": "HOLD",
+      "confidence": 0.5382279753684998,
+      "price": 77.11,
+      "features": {
+        "momentum_60d": 0.030193720774883248,
+        "volatility_30d": 0.015356769590607751,
+        "volume_ratio_20d": 0.5785353210657936,
+        "drawdown_60d": -0.11020078467574423
+      },
+      "shap": {
+        "volatility_30d": 0.8706607818603516,
+        "drawdown_60d": 0.07302361726760864,
+        "momentum_60d": 0.03936042636632919,
+        "volume_ratio_20d": 0.016955256462097168
+      },
+      "color": "#ffb627"
+    },
+    {
+      "ticker": "MNKD",
+      "name": "MNKD",
+      "sector": "Healthcare",
+      "riskScore": 100,
+      "rec": "AVOID",
+      "confidence": 0.999984860420227,
+      "price": 2.77,
+      "features": {
+        "momentum_60d": -0.5336700336700337,
+        "volatility_30d": 0.07551395541218713,
+        "volume_ratio_20d": 0.47367826241385774,
+        "drawdown_60d": -0.5539452495974235
+      },
+      "shap": {
+        "volatility_30d": 0.8706607818603516,
+        "drawdown_60d": 0.07302361726760864,
+        "momentum_60d": 0.03936042636632919,
+        "volume_ratio_20d": 0.016955256462097168
+      },
+      "color": "#ff4d6a"
+    },
+    {
+      "ticker": "MGM",
+      "name": "MGM",
+      "sector": "Consumer Cyclical",
+      "riskScore": 88,
+      "rec": "AVOID",
+      "confidence": 0.999921441078186,
+      "price": 36.68,
+      "features": {
+        "momentum_60d": -0.01872659176029967,
+        "volatility_30d": 0.034773489102827716,
+        "volume_ratio_20d": 0.76722961876301,
+        "drawdown_60d": -0.036258539148712576
+      },
+      "shap": {
+        "volatility_30d": 0.8706607818603516,
+        "drawdown_60d": 0.07302361726760864,
+        "momentum_60d": 0.03936042636632919,
+        "volume_ratio_20d": 0.016955256462097168
+      },
+      "color": "#ff4d6a"
+    },
+    {
+      "ticker": "MKC",
+      "name": "MKC",
+      "sector": "Consumer Defensive",
+      "riskScore": 21,
+      "rec": "HOLD",
+      "confidence": 0.7613358497619629,
+      "price": 58.29,
+      "features": {
+        "momentum_60d": -0.14842951059167275,
+        "volatility_30d": 0.02328485375168978,
+        "volume_ratio_20d": 1.0126402763403808,
+        "drawdown_60d": -0.18646196789951164
+      },
+      "shap": {
+        "volatility_30d": 0.8706607818603516,
+        "drawdown_60d": 0.07302361726760864,
+        "momentum_60d": 0.03936042636632919,
+        "volume_ratio_20d": 0.016955256462097168
+      },
+      "color": "#ffb627"
+    },
+    {
+      "ticker": "MGY",
+      "name": "MGY",
+      "sector": "Energy",
+      "riskScore": 0,
+      "rec": "AVOID",
+      "confidence": 0.42034444212913513,
+      "price": 29.5,
+      "features": {
+        "momentum_60d": 0.3205013428827215,
+        "volatility_30d": 0.01877674595657783,
+        "volume_ratio_20d": 0.7534010778983357,
+        "drawdown_60d": 0.0
+      },
+      "shap": {
+        "volatility_30d": 0.8706607818603516,
+        "drawdown_60d": 0.07302361726760864,
+        "momentum_60d": 0.03936042636632919,
+        "volume_ratio_20d": 0.016955256462097168
+      },
+      "color": "#ff4d6a"
+    },
+    {
+      "ticker": "A",
+      "name": "A",
+      "sector": "Healthcare",
+      "riskScore": 0,
+      "rec": "HOLD",
+      "confidence": 0.5065482258796692,
+      "price": 111.51,
+      "features": {
+        "momentum_60d": -0.20689900426742525,
+        "volatility_30d": 0.016425170174807456,
+        "volume_ratio_20d": 0.6327519468937046,
+        "drawdown_60d": -0.24919202800969564
+      },
+      "shap": {
+        "volatility_30d": 0.8706607818603516,
+        "drawdown_60d": 0.07302361726760864,
+        "momentum_60d": 0.03936042636632919,
+        "volume_ratio_20d": 0.016955256462097168
+      },
+      "color": "#ffb627"
+    },
+    {
+      "ticker": "MGA",
+      "name": "MGA",
+      "sector": "Consumer Cyclical",
+      "riskScore": 100,
+      "rec": "AVOID",
+      "confidence": 0.9999477863311768,
+      "price": 55.06,
+      "features": {
+        "momentum_60d": 0.05156608097784576,
+        "volatility_30d": 0.040038215963114,
+        "volume_ratio_20d": 0.6747248931403107,
+        "drawdown_60d": -0.19889422377418886
+      },
+      "shap": {
+        "volatility_30d": 0.8706607818603516,
+        "drawdown_60d": 0.07302361726760864,
+        "momentum_60d": 0.03936042636632919,
+        "volume_ratio_20d": 0.016955256462097168
+      },
+      "color": "#ff4d6a"
+    },
+    {
+      "ticker": "MGNI",
+      "name": "MGNI",
+      "sector": "Communication Services",
+      "riskScore": 100,
+      "rec": "AVOID",
+      "confidence": 0.9999599456787109,
+      "price": 11.88,
+      "features": {
+        "momentum_60d": -0.2499999999999999,
+        "volatility_30d": 0.0517648373184492,
+        "volume_ratio_20d": 0.7047659042056934,
+        "drawdown_60d": -0.2962085308056871
+      },
+      "shap": {
+        "volatility_30d": 0.8706607818603516,
+        "drawdown_60d": 0.07302361726760864,
+        "momentum_60d": 0.03936042636632919,
+        "volume_ratio_20d": 0.016955256462097168
+      },
+      "color": "#ff4d6a"
+    },
+    {
+      "ticker": "MOH",
+      "name": "MOH",
+      "sector": "Healthcare",
+      "riskScore": 100,
+      "rec": "AVOID",
+      "confidence": 0.9999666213989258,
+      "price": 149.2,
+      "features": {
+        "momentum_60d": -0.10390390390390403,
+        "volatility_30d": 0.05632862766085851,
+        "volume_ratio_20d": 1.0078317818761295,
+        "drawdown_60d": -0.26098370399722626
+      },
+      "shap": {
+        "volatility_30d": 0.8706607818603516,
+        "drawdown_60d": 0.07302361726760864,
+        "momentum_60d": 0.03936042636632919,
+        "volume_ratio_20d": 0.016955256462097168
+      },
+      "color": "#ff4d6a"
+    },
+    {
+      "ticker": "MFC",
+      "name": "MFC",
+      "sector": "Financial Services",
+      "riskScore": 0,
+      "rec": "HOLD",
+      "confidence": 0.5780633687973022,
+      "price": 33.41,
+      "features": {
+        "momentum_60d": -0.0657158836689038,
+        "volatility_30d": 0.01582991747421577,
+        "volume_ratio_20d": 0.4502320487854421,
+        "drawdown_60d": -0.1333333333333333
+      },
+      "shap": {
+        "volatility_30d": 0.8706607818603516,
+        "drawdown_60d": 0.07302361726760864,
+        "momentum_60d": 0.03936042636632919,
+        "volume_ratio_20d": 0.016955256462097168
+      },
+      "color": "#ffb627"
+    },
+    {
+      "ticker": "MFA",
+      "name": "MFA",
+      "sector": "Real Estate",
+      "riskScore": 0,
+      "rec": "HOLD",
+      "confidence": 0.5705799460411072,
+      "price": 9.82,
+      "features": {
+        "momentum_60d": 0.022916666666666696,
+        "volatility_30d": 0.01398454153098234,
+        "volume_ratio_20d": 0.9308900562823642,
+        "drawdown_60d": -0.040078201368523914
+      },
+      "shap": {
+        "volatility_30d": 0.8706607818603516,
+        "drawdown_60d": 0.07302361726760864,
+        "momentum_60d": 0.03936042636632919,
+        "volume_ratio_20d": 0.016955256462097168
+      },
+      "color": "#ffb627"
+    },
+    {
+      "ticker": "MFIC",
+      "name": "MFIC",
+      "sector": "Financial Services",
+      "riskScore": 21,
+      "rec": "HOLD",
+      "confidence": 0.7434799671173096,
+      "price": 10.33,
+      "features": {
+        "momentum_60d": -0.12531752751905167,
+        "volatility_30d": 0.023283612205688576,
+        "volume_ratio_20d": 0.9103938415620683,
+        "drawdown_60d": -0.12457627118644077
+      },
+      "shap": {
+        "volatility_30d": 0.8706607818603516,
+        "drawdown_60d": 0.07302361726760864,
+        "momentum_60d": 0.03936042636632919,
+        "volume_ratio_20d": 0.016955256462097168
+      },
+      "color": "#ffb627"
+    },
+    {
+      "ticker": "METC",
+      "name": "METC",
+      "sector": "Basic Materials",
+      "riskScore": 100,
+      "rec": "AVOID",
+      "confidence": 0.9999778270721436,
+      "price": 14.6,
+      "features": {
+        "momentum_60d": -0.029255319148936088,
+        "volatility_30d": 0.055884126557406814,
+        "volume_ratio_20d": 0.6188133751810719,
+        "drawdown_60d": -0.47330447330447334
+      },
+      "shap": {
+        "volatility_30d": 0.8706607818603516,
+        "drawdown_60d": 0.07302361726760864,
+        "momentum_60d": 0.03936042636632919,
+        "volume_ratio_20d": 0.016955256462097168
+      },
+      "color": "#ff4d6a"
+    },
+    {
+      "ticker": "MMYT",
+      "name": "MMYT",
+      "sector": "Consumer Cyclical",
+      "riskScore": 100,
+      "rec": "AVOID",
+      "confidence": 0.9999902248382568,
+      "price": 45.5,
+      "features": {
+        "momentum_60d": -0.4621113606809316,
+        "volatility_30d": 0.03929806248841888,
+        "volume_ratio_20d": 0.7608113327436054,
+        "drawdown_60d": -0.4733186711424934
+      },
+      "shap": {
+        "volatility_30d": 0.8706607818603516,
+        "drawdown_60d": 0.07302361726760864,
+        "momentum_60d": 0.03936042636632919,
+        "volume_ratio_20d": 0.016955256462097168
+      },
+      "color": "#ff4d6a"
+    },
+    {
+      "ticker": "NAGE",
+      "name": "NAGE",
+      "sector": "Healthcare",
+      "riskScore": 56,
+      "rec": "AVOID",
+      "confidence": 0.99996018409729,
+      "price": 4.78,
+      "features": {
+        "momentum_60d": -0.249607535321821,
+        "volatility_30d": 0.029344968468620655,
+        "volume_ratio_20d": 0.6819634502134865,
+        "drawdown_60d": -0.2928994082840236
+      },
+      "shap": {
+        "volatility_30d": 0.8706607818603516,
+        "drawdown_60d": 0.07302361726760864,
+        "momentum_60d": 0.03936042636632919,
+        "volume_ratio_20d": 0.016955256462097168
+      },
+      "color": "#ff4d6a"
+    },
+    {
+      "ticker": "MI",
+      "name": "MI",
+      "sector": "Consumer Cyclical",
+      "riskScore": 100,
+      "rec": "AVOID",
+      "confidence": 0.9999794960021973,
+      "price": 0.57,
+      "features": {
+        "momentum_60d": -0.858560794044665,
+        "volatility_30d": 0.17042120170748132,
+        "volume_ratio_20d": 1.233817021714521,
+        "drawdown_60d": -0.8983957219251337
+      },
+      "shap": {
+        "volatility_30d": 0.8706607818603516,
+        "drawdown_60d": 0.07302361726760864,
+        "momentum_60d": 0.03936042636632919,
+        "volume_ratio_20d": 0.016955256462097168
+      },
+      "color": "#ff4d6a"
+    },
+    {
+      "ticker": "MGNX",
+      "name": "MGNX",
+      "sector": "Healthcare",
+      "riskScore": 100,
+      "rec": "AVOID",
+      "confidence": 0.9999618530273438,
+      "price": 3.0,
+      "features": {
+        "momentum_60d": 1.1897810218978102,
+        "volatility_30d": 0.09186483413616098,
+        "volume_ratio_20d": 0.6502290385442766,
+        "drawdown_60d": -0.12536443148688048
+      },
+      "shap": {
+        "volatility_30d": 0.8706607818603516,
+        "drawdown_60d": 0.07302361726760864,
+        "momentum_60d": 0.03936042636632919,
+        "volume_ratio_20d": 0.016955256462097168
+      },
+      "color": "#ff4d6a"
+    },
+    {
+      "ticker": "MNRO",
+      "name": "MNRO",
+      "sector": "Consumer Cyclical",
+      "riskScore": 86,
+      "rec": "AVOID",
+      "confidence": 0.9999653100967407,
+      "price": 15.31,
+      "features": {
+        "momentum_60d": -0.2546251217137293,
+        "volatility_30d": 0.034367743424380426,
+        "volume_ratio_20d": 1.2661878152014299,
+        "drawdown_60d": -0.3569928601427971
+      },
+      "shap": {
+        "volatility_30d": 0.8706607818603516,
+        "drawdown_60d": 0.07302361726760864,
+        "momentum_60d": 0.03936042636632919,
+        "volume_ratio_20d": 0.016955256462097168
+      },
+      "color": "#ff4d6a"
+    },
+    {
+      "ticker": "MMSI",
+      "name": "MMSI",
+      "sector": "Healthcare",
+      "riskScore": 0,
+      "rec": "HOLD",
+      "confidence": 0.4925435781478882,
+      "price": 69.95,
+      "features": {
+        "momentum_60d": -0.19048721212822584,
+        "volatility_30d": 0.018643513151205975,
+        "volume_ratio_20d": 1.1087227599311205,
+        "drawdown_60d": -0.24930242541317882
+      },
+      "shap": {
+        "volatility_30d": 0.8706607818603516,
+        "drawdown_60d": 0.07302361726760864,
+        "momentum_60d": 0.03936042636632919,
+        "volume_ratio_20d": 0.016955256462097168
+      },
+      "color": "#ffb627"
+    },
+    {
+      "ticker": "MLCO",
+      "name": "MLCO",
+      "sector": "Consumer Cyclical",
+      "riskScore": 79,
+      "rec": "AVOID",
+      "confidence": 0.9999657869338989,
+      "price": 5.59,
+      "features": {
+        "momentum_60d": -0.29949874686716793,
+        "volatility_30d": 0.03316975700728201,
+        "volume_ratio_20d": 0.34873608121016836,
+        "drawdown_60d": -0.30212234706616725
+      },
+      "shap": {
+        "volatility_30d": 0.8706607818603516,
+        "drawdown_60d": 0.07302361726760864,
+        "momentum_60d": 0.03936042636632919,
+        "volume_ratio_20d": 0.016955256462097168
+      },
+      "color": "#ff4d6a"
+    }
+  ],
+  "models": [
+    {
+      "name": "XGBoost (baseline)",
+      "accuracy": 70.99117799688635,
+      "auc": 0.8288432445882684,
+      "f1": 0.5297858497724246,
+      "precision": null,
+      "recall": null,
+      "calibrated": false,
+      "notes": "Trained from price-derived + event-derived features; SHAP from latest sample.",
+      "best": true
+    }
+  ],
+  "globalFeatures": [
+    {
+      "name": "momentum_60d",
+      "imp": 0.04520753338886735
+    },
+    {
+      "name": "volatility_30d",
+      "imp": 1.0
+    },
+    {
+      "name": "volume_ratio_20d",
+      "imp": 0.019474009643421247
+    },
+    {
+      "name": "drawdown_60d",
+      "imp": 0.08387149023937679
+    }
+  ],
+  "confusion": [
+    [
+      149,
+      2933,
+      67
+    ],
+    [
+      164,
+      7367,
+      126
+    ],
+    [
+      52,
+      3925,
+      10268
+    ]
+  ],
+  "walkforward": {
+    "labels": [
+      "train/test split"
+    ],
+    "xgboost": [
+      70.99117799688635
+    ]
+  },
+  "evaluation": {
+    "accuracy": 0.7099117799688636,
+    "f1_macro": 0.5297858497724246,
+    "roc_auc_ovr": 0.8288432445882684
+  }
+}

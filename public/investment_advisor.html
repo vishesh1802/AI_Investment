@@ -526,6 +526,32 @@ const CONFUSION = [
   [6,10,64],
 ];
 
+// ═══════════════ BOOTSTRAP (generated artifacts) ═══════════════
+// The Python pipeline writes `/bootstrap.json` into `public/`.
+// If it exists, we use it to replace the mock data below.
+let BOOTSTRAP = null;
+async function loadBootstrap() {
+  try {
+    const res = await fetch('/bootstrap.json', { cache: 'no-store' });
+    if (!res.ok) return;
+    BOOTSTRAP = await res.json();
+  } catch (e) {
+    // Keep using mock data.
+  }
+}
+function getCompanies() {
+  return BOOTSTRAP?.companies ?? COMPANIES;
+}
+function getModels() {
+  return BOOTSTRAP?.models ?? MODELS;
+}
+function getGlobalFeatures() {
+  return BOOTSTRAP?.globalFeatures ?? GLOBAL_FEATURES;
+}
+function getConfusion() {
+  return BOOTSTRAP?.confusion ?? CONFUSION;
+}
+
 let activeFilter = 'all';
 let selectedCo = null;
 let chatHistory = [];
@@ -536,13 +562,24 @@ function showPage(p,btn) {
   document.querySelectorAll('.nav-btn').forEach(el=>el.classList.remove('active'));
   document.getElementById('page-'+p).classList.add('active');
   btn?.classList.add('active');
-  if(p==='models') renderModels();
-  if(p==='report') renderReport();
-  if(p==='compare') populateCompareSelects();
+  const renderNow = ()=>{
+    if(p==='advisor') renderCompanyList();
+    if(p==='models') renderModels();
+    if(p==='report') renderReport();
+    if(p==='compare') populateCompareSelects();
+  };
+  if((p==='advisor'||p==='models'||p==='report'||p==='compare') && !BOOTSTRAP){
+    loadBootstrap().then(renderNow);
+  }else{
+    renderNow();
+  }
 }
 
 // ═══════════════ ADVISOR ═══════════════
-function recColor(r){ return r==='BUY'?'var(--green)':r==='AVOID'?'var(--red)':'var(--amber)' }
+function recColor(r,c){ 
+  if(c<0.60) return 'var(--blue)';
+  return r==='BUY'?'var(--green)':r==='AVOID'?'var(--red)':'var(--amber)' 
+}
 function recBadge(r,c){
   if(c<0.60) return '<span class="badge badge-abstain">⊘ ABSTAIN</span>';
   const cls=r==='BUY'?'badge-buy':r==='AVOID'?'badge-avoid':'badge-hold';
@@ -569,7 +606,7 @@ function setFilter(f,btn){
 
 function renderCompanyList(){
   const list=document.getElementById('company-list');
-  list.innerHTML=COMPANIES.map(co=>`
+  list.innerHTML=getCompanies().map(co=>`
     <div class="company-row" data-ticker="${co.ticker}" data-name="${co.name}" data-rec="${co.rec}"
          onclick="selectCompany('${co.ticker}')">
       <div class="co-ticker" style="color:${co.color};border:1px solid ${co.color}22">${co.ticker}</div>
@@ -582,14 +619,14 @@ function renderCompanyList(){
       </div>
       <div style="text-align:right;flex-shrink:0">
         ${recBadge(co.rec,co.confidence)}
-        <div class="co-score" style="color:${recColor(co.rec)};font-size:16px;margin-top:4px">${co.riskScore}</div>
+        <div class="co-score" style="color:${recColor(co.rec,co.confidence)};font-size:16px;margin-top:4px">${co.riskScore}</div>
       </div>
     </div>
   `).join('');
 }
 
 function selectCompany(ticker){
-  const co=COMPANIES.find(c=>c.ticker===ticker);
+  const co=getCompanies().find(c=>c.ticker===ticker);
   selectedCo=co;
   document.querySelectorAll('.company-row').forEach(r=>r.classList.toggle('selected',r.dataset.ticker===ticker));
   chatHistory=[];
@@ -604,7 +641,24 @@ function renderDetail(co){
     const pct=Math.round(Math.abs(v)*100);
     const pos=v>0;
     const color=pos?'var(--green)':'var(--red)';
-    const labels={'momentum':'Price Momentum','earningsSurprise':'Earnings Surprise','pe':'P/E Ratio','volatility':'Volatility','debtRatio':'Debt/Equity','volume':'Volume Ratio','beta':'Beta','sharpe':'Sharpe Ratio'};
+    const labels={
+      // Legacy keys (if bootstrap is absent)
+      momentum:'Price Momentum',
+      earningsSurprise:'Earnings Surprise',
+      pe:'P/E Ratio',
+      volatility:'Volatility',
+      debtRatio:'Debt/Equity',
+      volume:'Volume Ratio',
+      beta:'Beta',
+      sharpe:'Sharpe Ratio',
+      // New keys from build_artifacts.py
+      momentum_60d:'Momentum (60d)',
+      volatility_30d:'Volatility (30d)',
+      volume_ratio_20d:'Volume Ratio (20d)',
+      drawdown_60d:'Drawdown (60d)',
+      dividend_yield_365d:'Dividend Yield (365d)',
+      next_earnings_within_30d:'Earnings within 30d'
+    };
     const sign=pos?'+':'-';
     return `<div class="shap-row">
       <div class="shap-name" data-tip="${k}">${labels[k]||k}</div>
@@ -613,18 +667,50 @@ function renderDetail(co){
     </div>`;
   }).join('');
 
+  const fmtFeature=(key,val)=>{
+    const n=Number(val);
+    if(!Number.isFinite(n)) return '-';
+    if(key==='volume_ratio_20d') return n.toFixed(2)+'x';
+    if(key==='next_earnings_within_30d') return n>=1?'Yes':'No';
+    if(['momentum_60d','volatility_30d','drawdown_60d','dividend_yield_365d'].includes(key)){
+      return (n*100).toFixed(1)+'%';
+    }
+    return n.toFixed(2);
+  };
+  const featureLabel=(key)=>{
+    const m={
+      momentum_60d:'Momentum (60d)',
+      volatility_30d:'Volatility (30d)',
+      volume_ratio_20d:'Volume Ratio (20d)',
+      drawdown_60d:'Drawdown (60d)',
+      dividend_yield_365d:'Dividend Yield (365d)',
+      next_earnings_within_30d:'Next Earnings (<=30d)',
+      // legacy
+      momentum:'Momentum',
+      volatility:'Volatility',
+      pe:'P/E Ratio',
+      debtRatio:'Debt/Equity',
+      earningsSurprise:'Earnings Surprise',
+      sharpe:'Sharpe Ratio',
+      beta:'Beta',
+      volume:'Volume Ratio',
+      debt:'Debt',
+    };
+    return m[key]||key;
+  };
+
+  const entries=Object.entries(co.features||{});
+  // Sort by magnitude so the most "active" signals show first.
+  entries.sort((a,b)=>Math.abs(Number(b[1]))-Math.abs(Number(a[1])));
+  const top=entries.slice(0,8);
+
   const featHtml=`
     <div class="grid-4" style="margin-bottom:0">
-      ${[
-        ['P/E Ratio',co.features.pe.toFixed(1),''],
-        ['Volatility',co.features.volatility.toFixed(1)+'%',''],
-        ['Momentum',co.features.momentum.toFixed(1)+'%',co.features.momentum>=0?'▲':'▼'],
-        ['Debt/Equity',co.features.debtRatio.toFixed(2),''],
-        ['Earn. Surprise',co.features.earningsSurprise.toFixed(1)+'%',co.features.earningsSurprise>=0?'+':''],
-        ['Sharpe Ratio',co.features.sharpe.toFixed(2),''],
-        ['Beta',co.features.beta.toFixed(2),''],
-        ['Volume Ratio',co.features.volume.toFixed(1)+'x',''],
-      ].map(([l,v,s])=>`<div class="metric"><div class="metric-label">${l}</div><div class="metric-val font-display" style="font-size:22px">${s}${v}</div></div>`).join('')}
+      ${top.map(([k,v])=>{
+        const n=Number(v);
+        const arrow=(k==='momentum_60d' || k==='drawdown_60d') ? (Number.isFinite(n)&&n>=0?'▲':'▼') : '';
+        return `<div class="metric"><div class="metric-label">${featureLabel(k)}</div><div class="metric-val font-display" style="font-size:22px">${arrow}${fmtFeature(k,v)}</div></div>`;
+      }).join('')}
     </div>`;
 
   panel.innerHTML=`
@@ -683,7 +769,22 @@ function renderDetail(co){
 
 function getTopDriver(co){
   const top=Object.entries(co.shap).sort((a,b)=>Math.abs(b[1])-Math.abs(a[1]))[0];
-  const labels={'momentum':'Strong price momentum','earningsSurprise':'Earnings surprise','pe':'P/E ratio','volatility':'Volatility level','debtRatio':'Debt-to-equity ratio','sharpe':'Sharpe ratio'};
+  const labels={
+    // Legacy keys
+    momentum:'Strong price momentum',
+    earningsSurprise:'Earnings surprise',
+    pe:'P/E ratio',
+    volatility:'Volatility level',
+    debtRatio:'Debt-to-equity ratio',
+    sharpe:'Sharpe ratio',
+    // New keys from build_artifacts.py
+    momentum_60d:'Positive 60d momentum',
+    volatility_30d:'Higher 30d volatility',
+    volume_ratio_20d:'Elevated volume ratio',
+    drawdown_60d:'Deep drawdown pressure',
+    dividend_yield_365d:'Dividend yield signal',
+    next_earnings_within_30d:'Near-term earnings timing'
+  };
   const dir=top[1]>0?'positively influences':'negatively impacts';
   return `<strong style="color:var(--text)">${labels[top[0]]||top[0]}</strong> ${dir} the recommendation.`;
 }
@@ -727,9 +828,9 @@ async function sendChat(){
   msgs.scrollTop=msgs.scrollHeight;
   chatHistory.push({role:'user',content:msg});
   const systemPrompt=`You are a concise, expert AI investment advisor. The user is analyzing ${co.name} (${co.ticker}), sector: ${co.sector}. 
-Key data: Risk Score=${co.riskScore}/100, Recommendation=${co.confidence>=0.60?co.rec:'ABSTAIN (low confidence)'}, Confidence=${Math.round(co.confidence*100)}%, 
-P/E=${co.features.pe}, Volatility=${co.features.volatility}%, Momentum=${co.features.momentum}%, Debt/Equity=${co.features.debtRatio}, Earnings Surprise=${co.features.earningsSurprise}%, Sharpe=${co.features.sharpe}.
-Top SHAP drivers: ${JSON.stringify(co.shap)}.
+Key data: Risk Score=${co.riskScore}/100, Recommendation=${co.confidence>=0.60?co.rec:'ABSTAIN (low confidence)'}, Confidence=${Math.round(co.confidence*100)}%.
+Features=${JSON.stringify(co.features)}.
+Top SHAP/driver signals: ${JSON.stringify(co.shap)}.
 Give sharp, 2-4 sentence answers. Use ** for emphasis. Add a ⚠ disclaimer if advice could be taken as financial guidance. Never recommend illegal actions.`;
   try{
     const res=await fetch('/api/chat',{
@@ -766,7 +867,7 @@ function populateCompareSelects(){
   ['compare-a','compare-b'].forEach(id=>{
     const sel=document.getElementById(id);
     if(sel.options.length>1) return;
-    COMPANIES.forEach(co=>{
+    getCompanies().forEach(co=>{
       const opt=document.createElement('option');
       opt.value=co.ticker; opt.textContent=`${co.ticker} — ${co.name}`;
       sel.appendChild(opt);
@@ -775,41 +876,49 @@ function populateCompareSelects(){
 }
 
 function renderCompare(){
-  const a=COMPANIES.find(c=>c.ticker===document.getElementById('compare-a').value);
-  const b=COMPANIES.find(c=>c.ticker===document.getElementById('compare-b').value);
+  const a=getCompanies().find(c=>c.ticker===document.getElementById('compare-a').value);
+  const b=getCompanies().find(c=>c.ticker===document.getElementById('compare-b').value);
   const panel=document.getElementById('compare-panel');
   if(!a||!b){panel.innerHTML='';return;}
 
   const METRICS=[
     ['Risk Score','riskScore','','lower=safer'],
-    ['P/E Ratio','pe','features',''],
-    ['Volatility %','volatility','features',''],
-    ['Momentum %','momentum','features','positive preferred'],
-    ['Debt/Equity','debtRatio','features','lower=safer'],
-    ['Earnings Surprise %','earningsSurprise','features',''],
-    ['Sharpe Ratio','sharpe','features','higher=better'],
-    ['Beta','beta','features',''],
+    ['Momentum (60d)','momentum_60d','features','higher=better'],
+    ['Volatility (30d)','volatility_30d','features','lower=safer'],
+    ['Volume Ratio (20d)','volume_ratio_20d','features','higher=better'],
+    ['Drawdown (60d)','drawdown_60d','features','higher=better'],
   ];
 
   function val(co,k,sub){return sub==='features'?co.features[k]:co[k]}
   function winColor(va,vb,k){
-    const lowBetter=['riskScore','volatility','debtRatio','beta'];
-    const lowB=lowBetter.includes(k);
+    const na=Number(va), nb=Number(vb);
+    if(!Number.isFinite(na) || !Number.isFinite(nb)) return ['var(--muted)','var(--muted)'];
     if(va===vb) return ['var(--muted)','var(--muted)'];
-    const aWins=(lowB?va<vb:va>vb);
+    // "lower=safer" means smaller is better, "higher=better" means bigger is better.
+    const lowerBetter = (k === 'riskScore' || k === 'volatility_30d');
+    const aWins=(lowerBetter?na<nb:na>nb);
     return aWins?['var(--green)','var(--red)']:['var(--red)','var(--green)'];
+  }
+
+  function fmt(k,v){
+    const n=Number(v);
+    if(!Number.isFinite(n)) return '-';
+    if(k==='riskScore') return Math.round(n).toString();
+    if(['momentum_60d','volatility_30d','drawdown_60d'].includes(k)) return (n*100).toFixed(1)+'%';
+    if(k==='volume_ratio_20d') return n.toFixed(2)+'x';
+    return n.toFixed(2);
   }
 
   const rows=METRICS.map(([label,k,sub,hint])=>{
     const va=val(a,k,sub), vb=val(b,k,sub);
     const [ca,cb]=winColor(va,vb,k);
     return `<div style="display:grid;grid-template-columns:1fr 180px 1fr;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)">
-      <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:${ca}">${typeof va==='number'?va.toFixed(va%1?2:0):va}</div>
+      <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:${ca}">${fmt(k,va)}</div>
       <div style="text-align:center">
         <div style="font-size:12px;color:var(--muted)">${label}</div>
         ${hint?`<div style="font-size:10px;color:var(--muted2);font-family:'JetBrains Mono',monospace;margin-top:2px">${hint}</div>`:''}
       </div>
-      <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;text-align:right;color:${cb}">${typeof vb==='number'?vb.toFixed(vb%1?2:0):vb}</div>
+      <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;text-align:right;color:${cb}">${fmt(k,vb)}</div>
     </div>`;
   }).join('');
 
@@ -841,13 +950,13 @@ function renderModels(){
   const tbl=document.getElementById('model-table');
   tbl.innerHTML=`<thead><tr>
     <th>Model</th><th>Accuracy</th><th>ROC-AUC</th><th>F1</th><th>Precision</th><th>Recall</th><th>Calibrated</th>
-  </tr></thead><tbody>${MODELS.map(m=>`<tr ${m.best?'class="best-row"':''}>
+  </tr></thead><tbody>${getModels().map(m=>`<tr ${m.best?'class="best-row"':''}>
     <td><strong>${m.name}</strong>${m.best?'<span class="model-winner">★ SELECTED</span>':''}<br><span style="font-size:11px;color:var(--muted)">${m.notes}</span></td>
     <td style="color:${m.accuracy>74?'var(--green)':'var(--muted)'};font-family:'Syne',sans-serif;font-weight:700">${m.accuracy.toFixed(1)}%</td>
-    <td style="font-family:'JetBrains Mono',monospace">${m.auc.toFixed(2)}</td>
-    <td style="font-family:'JetBrains Mono',monospace">${m.f1.toFixed(2)}</td>
-    <td style="font-family:'JetBrains Mono',monospace">${m.precision.toFixed(2)}</td>
-    <td style="font-family:'JetBrains Mono',monospace">${m.recall.toFixed(2)}</td>
+    <td style="font-family:'JetBrains Mono',monospace">${typeof m.auc==='number'?m.auc.toFixed(2):'-'}</td>
+    <td style="font-family:'JetBrains Mono',monospace">${typeof m.f1==='number'?m.f1.toFixed(2):'-'}</td>
+    <td style="font-family:'JetBrains Mono',monospace">${typeof m.precision==='number'?m.precision.toFixed(2):'-'}</td>
+    <td style="font-family:'JetBrains Mono',monospace">${typeof m.recall==='number'?m.recall.toFixed(2):'-'}</td>
     <td style="color:${m.calibrated?'var(--green)':'var(--muted)'}">${m.calibrated?'✓ Yes':'✗ No'}</td>
   </tr>`).join('')}</tbody>`;
 
@@ -858,11 +967,12 @@ function renderModels(){
                 ['rgba(255,77,106,0.05)','rgba(255,77,106,0.1)','rgba(255,77,106,0.3)']];
   const cm=document.getElementById('cm-grid');
   cm.innerHTML='';
+  const CONF=getConfusion();
   for(let i=0;i<3;i++) for(let j=0;j<3;j++){
     const d=document.createElement('div');
     d.className='cm-cell';
     d.style.background=colors[i][j];
-    d.innerHTML=`<div class="cm-val font-display">${CONFUSION[i][j]}</div><div class="cm-lbl">${labels[i][0]}→${labels[j][0]}</div>`;
+    d.innerHTML=`<div class="cm-val font-display">${CONF[i][j]}</div><div class="cm-lbl">${labels[i][0]}→${labels[j][0]}</div>`;
     cm.appendChild(d);
   }
 
@@ -898,7 +1008,7 @@ function renderModels(){
 
   // Global Feature Importance
   const fi=document.getElementById('global-fi');
-  fi.innerHTML=GLOBAL_FEATURES.map(f=>`
+  fi.innerHTML=getGlobalFeatures().map(f=>`
     <div class="fi-row">
       <div style="font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${f.name}</div>
       <div class="shap-bar-wrap" style="height:10px">
@@ -985,7 +1095,7 @@ function renderReport(){
 }
 
 // ═══════════════ INIT ═══════════════
-renderCompanyList();
+loadBootstrap().then(()=>renderCompanyList());
 </script>
 </body>
 </html>
